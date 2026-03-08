@@ -33,3 +33,52 @@ const PRODUCT_DATA = [
         image: 'assets/tea_time_cake_1772978388914.png'
     }
 ];
+
+// --- Recent Deliveries Data ---
+const DELIVERIES_DATA = [
+    {
+        id: 'delivery-1',
+        customerName: 'Aarushi M.',
+        location: 'Banjara Hills, Hyderabad',
+        items: '1x Classic Chocolate Berry, 2x Vanilla Pound Tea Cake',
+        status: 'Delivered',
+        date: 'Today, 2:30 PM',
+        image: 'assets/bakery_delivery_box.png' // Will be updated with generated image
+    },
+    {
+        id: 'delivery-2',
+        customerName: 'Rahul K.',
+        location: 'Jubilee Hills, Hyderabad',
+        items: '1x Assorted Gourmet Donuts (Box of 6)',
+        status: 'Delivered',
+        date: 'Today, 11:15 AM',
+        image: 'assets/bakery_delivery_box.png'
+    },
+    {
+        id: 'delivery-3',
+        customerName: 'Sneha P.',
+        location: 'Kukatpally, Hyderabad',
+        items: '2x Decadent Fudge Brownies (Box of 4)',
+        status: 'Delivered',
+        date: 'Yesterday, 5:45 PM',
+        image: 'assets/bakery_delivery_box.png'
+    }
+];
+
+// --- Customer Reviews Data ---
+const REVIEWS_DATA = [
+    {
+        id: 'review-1',
+        customerName: 'Priya S.',
+        rating: 5,
+        text: '"Absolutely the best chocolate cake I have ever had! The berries were so fresh and the cake was perfectly moist. Highly recommend SusmiArtz!"',
+        image: 'assets/customer_review_1.png'
+    },
+    {
+        id: 'review-2',
+        customerName: 'Ananya V.',
+        rating: 5,
+        text: '"Ordered a box of assorted donuts for my team and they disappeared in minutes! So light, fluffy, and the glazes are divine."',
+        image: 'assets/customer_review_2.png'
+    }
+];
