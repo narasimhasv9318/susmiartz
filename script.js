@@ -7,6 +7,7 @@ let cart = [];
 
 // --- DOM Elements ---
 const productGrid = document.getElementById('productGrid');
+const reviewsGrid = document.getElementById('reviewsGrid');
 const cartToggle = document.getElementById('cartToggle');
 const cartSidebar = document.getElementById('cartSidebar');
 const closeCartBtn = document.getElementById('closeCart');
@@ -20,6 +21,7 @@ const filterBtns = document.querySelectorAll('.filter-btn');
 // --- Initialization ---
 function init() {
     renderProducts('all');
+    if (reviewsGrid) renderReviews();
     setupEventListeners();
     updateCartUI();
 }
@@ -48,6 +50,31 @@ function renderProducts(filter) {
         `;
         productGrid.appendChild(card);
     });
+}
+
+// --- Render Reviews ---
+function renderReviews() {
+    reviewsGrid.innerHTML = '';
+
+    if (typeof REVIEWS_DATA !== 'undefined' && REVIEWS_DATA.length > 0) {
+        REVIEWS_DATA.forEach((review, index) => {
+            const card = document.createElement('div');
+            card.className = 'review-card';
+            card.style.animationDelay = `${index * 0.1}s`;
+
+            card.innerHTML = `
+                <img src="${review.image}" alt="Review by ${review.customerName}" class="review-image" loading="lazy">
+                <div class="review-stars">
+                    ${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}
+                </div>
+                <p class="review-text">${review.text}</p>
+                <div class="review-author">- ${review.customerName}</div>
+            `;
+            reviewsGrid.appendChild(card);
+        });
+    } else {
+        reviewsGrid.innerHTML = '<p style="text-align: center; grid-column: 1 / -1; color: var(--text-muted);">No reviews yet. Be the first to leave one!</p>';
+    }
 }
 
 // --- Cart Logic ---
