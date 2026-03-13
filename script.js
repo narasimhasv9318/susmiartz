@@ -171,7 +171,7 @@ function processCheckout() {
 
     // Replace with ACTUAL phone number including country code, e.g., '1234567890'
     // I am using a placeholder for now as requested.
-    const phoneNumber = '+1234567890';
+    const phoneNumber = '+919700879944';
 
     let message = `Hello SusmiArtz! I would like to place an order:\n\n`;
 
