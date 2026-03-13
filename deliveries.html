@@ -44,45 +44,51 @@
         </div>
     </main>
 
-    <script src="data.js"></script>
     <script>
-        // Render Deliveries
         const deliveriesGrid = document.getElementById('deliveriesGrid');
 
-        if (typeof DELIVERIES_DATA !== 'undefined' && DELIVERIES_DATA.length > 0) {
-            DELIVERIES_DATA.forEach((delivery, index) => {
-                const card = document.createElement('div');
-                card.className = 'product-card';
-                card.style.animationDelay = `${index * 0.1}s`;
+        // Automatically loads from deliveries.json — just add a new entry there for each new delivery!
+        fetch('deliveries.json')
+            .then(res => res.json())
+            .then(deliveries => {
+                if (!deliveries || deliveries.length === 0) {
+                    deliveriesGrid.innerHTML = '<p style="text-align: center; grid-column: 1 / -1; color: var(--text-muted);">No recent deliveries to show.</p>';
+                    return;
+                }
 
-                const customerNameHtml = delivery.customerName ? `<h3 class="product-title" style="font-size: 1.1rem; margin-top: 0.5rem;">To: ${delivery.customerName}</h3>` : '';
-                const locationHtml = delivery.location ? `<p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 4px;">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                            ${delivery.location}
-                        </p>` : '';
-                const itemsHtml = delivery.items ? `<p style="font-size: 0.9rem; margin-bottom: 1rem; line-height: 1.4;"><strong>Items:</strong> <br>${delivery.items}</p>` : '<div style="flex-grow: 1;"></div>';
+                deliveries.forEach((delivery, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'product-card';
+                    card.style.animationDelay = `${index * 0.1}s`;
 
-                card.innerHTML = `
-                    <img src="${delivery.image}" alt="Delivery image" class="product-image" loading="lazy">
-                    <div class="product-info">
-                        <span class="product-category" style="color: #25D366; display: flex; align-items: center; gap: 4px;">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                            ${delivery.status}
-                        </span>
-                        ${customerNameHtml}
-                        ${locationHtml}
-                        ${itemsHtml}
-                        <div class="product-price" style="font-size: 0.85rem; color: var(--text-muted); margin-top: auto; display: flex; align-items: center; gap: 4px;">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                            ${delivery.date}
+                    const customerNameHtml = delivery.customerName ? `<h3 class="product-title" style="font-size: 1.1rem; margin-top: 0.5rem;">To: ${delivery.customerName}</h3>` : '';
+                    const locationHtml = delivery.location ? `<p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.5rem;">📍 ${delivery.location}</p>` : '';
+                    const itemsHtml = delivery.items ? `<p style="font-size: 0.9rem; margin-bottom: 1rem; line-height: 1.4;"><strong>Items:</strong> <br>${delivery.items}</p>` : '<div style="flex-grow: 1;"></div>';
+                    const statusHtml = delivery.status ? delivery.status : 'Delivered';
+
+                    card.innerHTML = `
+                        <img src="${delivery.image}" alt="Delivery image" class="product-image" loading="lazy">
+                        <div class="product-info">
+                            <span class="product-category" style="color: #25D366; display: flex; align-items: center; gap: 4px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                ${statusHtml}
+                            </span>
+                            ${customerNameHtml}
+                            ${locationHtml}
+                            ${itemsHtml}
+                            <div class="product-price" style="font-size: 0.85rem; color: var(--text-muted); margin-top: auto; display: flex; align-items: center; gap: 4px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                ${delivery.date}
+                            </div>
                         </div>
-                    </div>
-                `;
-                deliveriesGrid.appendChild(card);
+                    `;
+                    deliveriesGrid.appendChild(card);
+                });
+            })
+            .catch(err => {
+                deliveriesGrid.innerHTML = '<p style="text-align: center; grid-column: 1 / -1; color: var(--text-muted);">Could not load deliveries. Make sure deliveries.json exists.</p>';
+                console.error('Failed to load deliveries.json:', err);
             });
-        } else {
-            deliveriesGrid.innerHTML = '<p style="text-align: center; grid-column: 1 / -1; color: var(--text-muted);">No recent deliveries to show.</p>';
-        }
     </script>
 </body>
 

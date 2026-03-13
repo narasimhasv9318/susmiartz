@@ -40,9 +40,10 @@ function renderProducts(filter) {
         card.style.animationDelay = `${index * 0.1}s`; // Staggered animation
 
         let extraHtml = '';
-        if (product.category === 'cakes') {
+        if (product.category === 'cakes' || product.category === 'tea-cakes') {
             let optionsHtml = '';
-            for (let i = 0.5; i <= 10; i += 0.5) {
+            const maxWeight = product.category === 'cakes' ? 10 : 5;
+            for (let i = 0.5; i <= maxWeight; i += 0.5) {
                 const selected = i === 1 ? 'selected' : '';
                 optionsHtml += `<option value="${i}" ${selected}>${i} Kg</option>`;
             }
@@ -53,12 +54,14 @@ function renderProducts(filter) {
             `;
         }
 
+        const isWeightedCat = product.category === 'cakes' || product.category === 'tea-cakes';
+
         card.innerHTML = `
             <img src="${product.image}" alt="${product.name}" class="product-image" loading="lazy">
             <div class="product-info">
                 <span class="product-category">${product.category.replace('-', ' ')}</span>
                 <h3 class="product-title">${product.name}</h3>
-                <div class="product-price">₹${product.price.toFixed(2)}${product.category === 'cakes' ? ' / kg' : ''}</div>
+                <div class="product-price">₹${product.price.toFixed(2)}${isWeightedCat ? ' / kg' : ''}</div>
                 ${extraHtml}
                 <button class="add-to-cart-btn" onclick="addToCart('${product.id}')">Add to Order</button>
             </div>
@@ -96,8 +99,9 @@ function renderReviews() {
 window.addToCart = function (productId) {
     const product = products.find(p => p.id === productId);
     let selectedWeight = 1;
+    const isWeightedCat = product.category === 'cakes' || product.category === 'tea-cakes';
 
-    if (product.category === 'cakes') {
+    if (isWeightedCat) {
         const weightSelect = document.getElementById(`weight-${productId}`);
         if (weightSelect) {
             selectedWeight = parseFloat(weightSelect.value);
@@ -105,14 +109,14 @@ window.addToCart = function (productId) {
     }
 
     // Create a unique cart item ID based on the weight so they don't merge if they have different weights
-    const cartItemId = product.category === 'cakes' ? `${productId}-${selectedWeight}` : productId;
+    const cartItemId = isWeightedCat ? `${productId}-${selectedWeight}` : productId;
 
     const existingItem = cart.find(item => item.cartItemId === cartItemId);
 
     if (existingItem) {
         existingItem.quantity += 1;
     } else {
-        const itemPrice = product.category === 'cakes' ? product.price * selectedWeight : product.price;
+        const itemPrice = isWeightedCat ? product.price * selectedWeight : product.price;
         cart.push({
             ...product,
             cartItemId: cartItemId,
@@ -163,7 +167,8 @@ function updateCartUI() {
 
     cartItemsContainer.innerHTML = '';
     cart.forEach(item => {
-        const weightLabel = item.category === 'cakes' ? ` <span style="font-size: 0.8rem; color: var(--text-muted);">(${item.selectedWeight} Kg)</span>` : '';
+        const isWeightedCat = item.category === 'cakes' || item.category === 'tea-cakes';
+        const weightLabel = isWeightedCat ? ` <span style="font-size: 0.8rem; color: var(--text-muted);">(${item.selectedWeight} Kg)</span>` : '';
         const cartItemEl = document.createElement('div');
         cartItemEl.className = 'cart-item';
         cartItemEl.innerHTML = `
@@ -211,7 +216,8 @@ function processCheckout() {
     let message = `Hello SusmiArtz! I would like to place an order:\n\n`;
 
     cart.forEach(item => {
-        const weightText = item.category === 'cakes' ? ` (${item.selectedWeight} Kg)` : '';
+        const isWeightedCat = item.category === 'cakes' || item.category === 'tea-cakes';
+        const weightText = isWeightedCat ? ` (${item.selectedWeight} Kg)` : '';
         message += `* ${item.quantity}x ${item.name}${weightText} (₹${(item.cartPrice * item.quantity).toFixed(2)})\n`;
     });
 
