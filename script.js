@@ -39,12 +39,27 @@ function renderProducts(filter) {
         card.className = 'product-card';
         card.style.animationDelay = `${index * 0.1}s`; // Staggered animation
 
+        let extraHtml = '';
+        if (product.category === 'cakes') {
+            let optionsHtml = '';
+            for (let i = 0.5; i <= 10; i += 0.5) {
+                const selected = i === 1 ? 'selected' : '';
+                optionsHtml += `<option value="${i}" ${selected}>${i} Kg</option>`;
+            }
+            extraHtml = `
+                <select class="weight-select" id="weight-${product.id}">
+                    ${optionsHtml}
+                </select>
+            `;
+        }
+
         card.innerHTML = `
             <img src="${product.image}" alt="${product.name}" class="product-image" loading="lazy">
             <div class="product-info">
                 <span class="product-category">${product.category.replace('-', ' ')}</span>
                 <h3 class="product-title">${product.name}</h3>
-                <div class="product-price">₹${product.price.toFixed(2)}</div>
+                <div class="product-price">₹${product.price.toFixed(2)}${product.category === 'cakes' ? ' / kg' : ''}</div>
+                ${extraHtml}
                 <button class="add-to-cart-btn" onclick="addToCart('${product.id}')">Add to Order</button>
             </div>
         `;
@@ -80,32 +95,51 @@ function renderReviews() {
 // --- Cart Logic ---
 window.addToCart = function (productId) {
     const product = products.find(p => p.id === productId);
-    const existingItem = cart.find(item => item.id === productId);
+    let selectedWeight = 1;
+
+    if (product.category === 'cakes') {
+        const weightSelect = document.getElementById(`weight-${productId}`);
+        if (weightSelect) {
+            selectedWeight = parseFloat(weightSelect.value);
+        }
+    }
+
+    // Create a unique cart item ID based on the weight so they don't merge if they have different weights
+    const cartItemId = product.category === 'cakes' ? `${productId}-${selectedWeight}` : productId;
+
+    const existingItem = cart.find(item => item.cartItemId === cartItemId);
 
     if (existingItem) {
         existingItem.quantity += 1;
     } else {
-        cart.push({ ...product, quantity: 1 });
+        const itemPrice = product.category === 'cakes' ? product.price * selectedWeight : product.price;
+        cart.push({
+            ...product,
+            cartItemId: cartItemId,
+            selectedWeight: selectedWeight,
+            cartPrice: itemPrice,
+            quantity: 1
+        });
     }
 
     openCart();
     updateCartUI();
 };
 
-window.updateQuantity = function (productId, delta) {
-    const item = cart.find(item => item.id === productId);
+window.updateQuantity = function (cartItemId, delta) {
+    const item = cart.find(item => item.cartItemId === cartItemId);
     if (item) {
         item.quantity += delta;
         if (item.quantity <= 0) {
-            removeFromCart(productId);
+            removeFromCart(cartItemId);
         } else {
             updateCartUI();
         }
     }
 };
 
-window.removeFromCart = function (productId) {
-    cart = cart.filter(item => item.id !== productId);
+window.removeFromCart = function (cartItemId) {
+    cart = cart.filter(item => item.cartItemId !== cartItemId);
     updateCartUI();
 };
 
@@ -115,7 +149,7 @@ function updateCartUI() {
     cartCountElement.textContent = totalItems;
 
     // Update total cost
-    const totalCost = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const totalCost = cart.reduce((sum, item) => sum + (item.cartPrice * item.quantity), 0);
     cartTotalCostElement.textContent = `₹${totalCost.toFixed(2)}`;
 
     // Enable/Disable checkout
@@ -129,20 +163,21 @@ function updateCartUI() {
 
     cartItemsContainer.innerHTML = '';
     cart.forEach(item => {
+        const weightLabel = item.category === 'cakes' ? ` <span style="font-size: 0.8rem; color: var(--text-muted);">(${item.selectedWeight} Kg)</span>` : '';
         const cartItemEl = document.createElement('div');
         cartItemEl.className = 'cart-item';
         cartItemEl.innerHTML = `
             <img src="${item.image}" alt="${item.name}">
             <div class="cart-item-details">
-                <div class="cart-item-title">${item.name}</div>
-                <div class="cart-item-price">₹${item.price.toFixed(2)}</div>
+                <div class="cart-item-title">${item.name}${weightLabel}</div>
+                <div class="cart-item-price">₹${item.cartPrice.toFixed(2)}</div>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
                     <div class="quantity-controls">
-                        <button class="qty-btn" onclick="updateQuantity('${item.id}', -1)">-</button>
+                        <button class="qty-btn" onclick="updateQuantity('${item.cartItemId}', -1)">-</button>
                         <span class="qty-display">${item.quantity}</span>
-                        <button class="qty-btn" onclick="updateQuantity('${item.id}', 1)">+</button>
+                        <button class="qty-btn" onclick="updateQuantity('${item.cartItemId}', 1)">+</button>
                     </div>
-                    <button class="remove-item" onclick="removeFromCart('${item.id}')">
+                    <button class="remove-item" onclick="removeFromCart('${item.cartItemId}')">
                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
                     </button>
                 </div>
@@ -176,10 +211,11 @@ function processCheckout() {
     let message = `Hello SusmiArtz! I would like to place an order:\n\n`;
 
     cart.forEach(item => {
-        message += `* ${item.quantity}x ${item.name} (₹${(item.price * item.quantity).toFixed(2)})\n`;
+        const weightText = item.category === 'cakes' ? ` (${item.selectedWeight} Kg)` : '';
+        message += `* ${item.quantity}x ${item.name}${weightText} (₹${(item.cartPrice * item.quantity).toFixed(2)})\n`;
     });
 
-    const totalCost = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const totalCost = cart.reduce((sum, item) => sum + (item.cartPrice * item.quantity), 0);
     message += `\n*Total Bill: ₹${totalCost.toFixed(2)}*\n\n`;
     message += `Please confirm my order and share payment details.`;
 
