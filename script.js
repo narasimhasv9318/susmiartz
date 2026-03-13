@@ -402,20 +402,34 @@ window.handleCustomOrder = function (event) {
     const imageInput = document.getElementById('customImage');
     const hasImage = imageInput.files && imageInput.files.length > 0;
 
+    // Delivery Date
+    const dateInput = document.getElementById('customDeliveryDate');
+    if (!dateInput || !dateInput.value) {
+        alert("Please select a Delivery Date. We require 1 day prior notice.");
+        if (dateInput) dateInput.focus();
+        return;
+    }
+    const deliveryDateStr = new Date(dateInput.value).toLocaleDateString('en-IN', {
+        weekday: 'short', year: 'numeric', month: 'short', day: 'numeric'
+    });
+
     const phoneNumber = '+919700879944';
 
-    let message = `Hello SusmiArtz! 🎂 I would like to request a quotation for a *Custom Cake Design*:\n\n`;
+    let message = `Hello SusmiArtz! 🎂 I would like to request a quotation for a *Custom Cake Design* needed on *${deliveryDateStr}*:\n\n`;
     message += `*Base Flavor:* ${flavor}\n`;
     message += `*Weight:* ${weight} Kg\n`;
     message += `*Type:* ${egg}\n`;
 
     if (hasImage) {
-        message += `*Inspiration Image:* Yes (I will send the image separately in this chat)\n`;
+        message += `*Inspiration Image:* Yes (I am sending the image separately in this chat now)\n`;
     }
 
     if (notes) {
-        message += `\n*Customization Details / Notes:*\n${notes}\n`;
+        message += `\n*Customization Details:*\n${notes}\n`;
     }
+
+    // Pickup location
+    message += `\n📍 *Will Collect From (Self-Pickup):*\nhttps://share.google/tC4LkPK85T9SBgXlo\n`;
 
     message += `\n⚠️ I understand that the final price will be determined based on the design complexity, fondant work, and specific decorations required.\n\n`;
     message += `Please review my request and let me know the estimated cost. 🙏`;
@@ -426,9 +440,9 @@ window.handleCustomOrder = function (event) {
     // Open WhatsApp
     window.open(whatsappUrl, '_blank');
 
-    // If they selected an image, remind them to actually send it since web links can't auto-attach local files to WhatsApp
+    // If they selected an image, remind them to actually send it since browsers cannot auto-attach local files to web WhatsApp
     if (hasImage) {
-        alert("Awesome! We're redirecting you to WhatsApp. Please remember to manually attach and send the inspiration image you selected to us in the chat!");
+        alert("IMPORTANT: WhatsApp does not allow websites to auto-attach files. Please remember to manually tap the 📎 (attachment) icon in WhatsApp and send your inspiration image!");
     }
 };
 
@@ -448,15 +462,22 @@ function setupEventListeners() {
         });
     });
 
-    // Set minimum delivery date to tomorrow
+    // Set minimum delivery date to tomorrow for both date inputs
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const yyyy = tomorrow.getFullYear();
+    const mm = String(tomorrow.getMonth() + 1).padStart(2, '0');
+    const dd = String(tomorrow.getDate()).padStart(2, '0');
+    const minDate = `${yyyy}-${mm}-${dd}`;
+
     const dateInput = document.getElementById('deliveryDate');
     if (dateInput) {
-        const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        const yyyy = tomorrow.getFullYear();
-        const mm = String(tomorrow.getMonth() + 1).padStart(2, '0');
-        const dd = String(tomorrow.getDate()).padStart(2, '0');
-        dateInput.min = `${yyyy}-${mm}-${dd}`;
+        dateInput.min = minDate;
+    }
+
+    const customDateInput = document.getElementById('customDeliveryDate');
+    if (customDateInput) {
+        customDateInput.min = minDate;
     }
 }
 
