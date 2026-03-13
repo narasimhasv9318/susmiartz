@@ -592,6 +592,26 @@ h2 {
     box-shadow: none;
 }
 
+.continue-shopping-btn {
+    width: 100%;
+    padding: 0.7rem;
+    background: transparent;
+    border: 1.5px solid var(--primary-color);
+    color: var(--primary-color);
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    font-family: var(--font-body);
+    cursor: pointer;
+    margin-bottom: 0.75rem;
+    transition: all 0.2s;
+}
+
+.continue-shopping-btn:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
 .overlay {
     position: fixed;
     top: 0;
