@@ -45,21 +45,40 @@ function renderProducts(filter) {
             : '';
 
         let extraHtml = '';
-        if (product.category === 'cakes' || product.category === 'tea-cakes') {
+        const isCake = product.category === 'cakes';
+        const isTeaCake = product.category === 'tea-cakes';
+        const isDonut = product.category === 'donuts';
+
+        if (isCake) {
+            // Cakes: 0.5 kg to 10 kg in 0.5 kg steps
             let optionsHtml = '';
-            const maxWeight = product.category === 'cakes' ? 10 : 5;
-            for (let i = 0.5; i <= maxWeight; i += 0.5) {
+            for (let i = 0.5; i <= 10; i = Math.round((i + 0.5) * 10) / 10) {
                 const selected = i === 1 ? 'selected' : '';
                 optionsHtml += `<option value="${i}" ${selected}>${i} Kg</option>`;
             }
-            extraHtml = `
-                <select class="weight-select" id="weight-${product.id}">
-                    ${optionsHtml}
-                </select>
-            `;
+            extraHtml = `<select class="weight-select" id="weight-${product.id}">${optionsHtml}</select>`;
+        } else if (isTeaCake) {
+            // Tea Cakes: 250g to 5 kg in 250g steps
+            let optionsHtml = '';
+            for (let i = 0.25; i <= 5.001; i = Math.round((i + 0.25) * 100) / 100) {
+                const selected = i === 0.5 ? 'selected' : '';
+                const label = i < 1 ? `${Math.round(i * 1000)}g` : `${i} Kg`;
+                optionsHtml += `<option value="${i}" ${selected}>${label}</option>`;
+            }
+            extraHtml = `<select class="weight-select" id="weight-${product.id}">${optionsHtml}</select>`;
+        } else if (isDonut) {
+            // Donuts: 1 to 10 pieces
+            let optionsHtml = '';
+            for (let i = 1; i <= 10; i++) {
+                optionsHtml += `<option value="${i}">${i} Donut${i > 1 ? 's' : ''}</option>`;
+            }
+            extraHtml = `<select class="weight-select" id="qty-${product.id}">${optionsHtml}</select>`;
         }
 
-        const isWeightedCat = product.category === 'cakes' || product.category === 'tea-cakes';
+        const isWeightedCat = isCake || isTeaCake;
+        // Tea cakes: price is per 500g, so multiply by (weight/0.5)
+        // Regular cakes: price is per kg
+        const priceLabel = isCake ? ' / kg' : (isTeaCake ? ' / 500g' : (isDonut ? ' each' : ''));
 
         card.innerHTML = `
             <div class="product-image-wrap" ${colorStyle}>
@@ -70,7 +89,7 @@ function renderProducts(filter) {
             <div class="product-info">
                 <span class="product-category">${product.category.replace('-', ' ')}</span>
                 <h3 class="product-title">${product.name}</h3>
-                <div class="product-price">₹${product.price.toFixed(2)}${isWeightedCat ? ' / kg' : ''}</div>
+                <div class="product-price">₹${product.price.toFixed(2)}${priceLabel}</div>
                 ${extraHtml}
                 <button class="add-to-cart-btn" onclick="addToCart('${product.id}')">Add to Order</button>
             </div>
@@ -107,29 +126,44 @@ function renderReviews() {
 // --- Cart Logic ---
 window.addToCart = function (productId) {
     const product = products.find(p => p.id === productId);
-    let selectedWeight = 1;
-    const isWeightedCat = product.category === 'cakes' || product.category === 'tea-cakes';
+    const isCake = product.category === 'cakes';
+    const isTeaCake = product.category === 'tea-cakes';
+    const isDonut = product.category === 'donuts';
+    const isWeightedCat = isCake || isTeaCake;
+
+    let selectedWeight = isTeaCake ? 0.5 : 1;
+    let selectedQty = 1;
 
     if (isWeightedCat) {
         const weightSelect = document.getElementById(`weight-${productId}`);
-        if (weightSelect) {
-            selectedWeight = parseFloat(weightSelect.value);
-        }
+        if (weightSelect) selectedWeight = parseFloat(weightSelect.value);
+    }
+    if (isDonut) {
+        const qtySelect = document.getElementById(`qty-${productId}`);
+        if (qtySelect) selectedQty = parseInt(qtySelect.value);
     }
 
     const cartItemId = isWeightedCat ? `${productId}-${selectedWeight}` : productId;
     const existingItem = cart.find(item => item.cartItemId === cartItemId);
 
     if (existingItem) {
-        existingItem.quantity += 1;
+        existingItem.quantity += isDonut ? selectedQty : 1;
     } else {
-        const itemPrice = isWeightedCat ? product.price * selectedWeight : product.price;
+        // Tea cakes: listed price is per 500g, so calculate proportionally
+        let itemPrice;
+        if (isTeaCake) {
+            itemPrice = product.price * (selectedWeight / 0.5);
+        } else if (isCake) {
+            itemPrice = product.price * selectedWeight;
+        } else {
+            itemPrice = product.price;
+        }
         cart.push({
             ...product,
-            cartItemId: cartItemId,
-            selectedWeight: selectedWeight,
+            cartItemId,
+            selectedWeight: isWeightedCat ? selectedWeight : null,
             cartPrice: itemPrice,
-            quantity: 1
+            quantity: isDonut ? selectedQty : 1
         });
     }
 
@@ -171,7 +205,14 @@ function updateCartUI() {
     cartItemsContainer.innerHTML = '';
     cart.forEach(item => {
         const isWeightedCat = item.category === 'cakes' || item.category === 'tea-cakes';
-        const weightLabel = isWeightedCat ? ` <span style="font-size: 0.8rem; color: var(--text-muted);">(${item.selectedWeight} Kg)</span>` : '';
+        let weightLabel = '';
+        if (isWeightedCat && item.selectedWeight) {
+            const w = item.selectedWeight;
+            const wStr = (item.category === 'tea-cakes' && w < 1)
+                ? `${Math.round(w * 1000)}g`
+                : `${w} Kg`;
+            weightLabel = ` <span style="font-size: 0.8rem; color: var(--text-muted);">(${wStr})</span>`;
+        }
         const cartItemEl = document.createElement('div');
         cartItemEl.className = 'cart-item';
         cartItemEl.innerHTML = `
@@ -214,27 +255,29 @@ function processCheckout() {
     if (cart.length === 0) return;
 
     const phoneNumber = '+919700879944';
-    const pickupInfo = typeof PICKUP_INFO !== 'undefined' ? PICKUP_INFO : null;
 
     let message = `Hello SusmiArtz! 🎂 I would like to place an order:\n\n`;
 
     cart.forEach(item => {
-        const isWeightedCat = item.category === 'cakes' || item.category === 'tea-cakes';
-        const weightText = isWeightedCat ? ` (${item.selectedWeight} Kg)` : '';
+        const isTeaCake = item.category === 'tea-cakes';
+        const isCake = item.category === 'cakes';
+        let weightText = '';
+        if (item.selectedWeight) {
+            const w = item.selectedWeight;
+            const wStr = (isTeaCake && w < 1) ? `${Math.round(w * 1000)}g` : `${w} Kg`;
+            weightText = ` (${wStr})`;
+        }
         message += `• ${item.quantity}x ${item.name}${weightText} — ₹${(item.cartPrice * item.quantity).toFixed(2)}\n`;
     });
 
     const totalCost = cart.reduce((sum, item) => sum + (item.cartPrice * item.quantity), 0);
     message += `\n*Total: ₹${totalCost.toFixed(2)}*\n\n`;
 
-    // Self-collection notice
-    message += `📦 *Order Type: Self-Collection*\n`;
-    message += `I will collect my order from your location.\n`;
+    // Pickup location
+    message += `📍 *Collection Point (Self-Pickup):*\nhttps://share.google/tC4LkPK85T9SBgXlo\n\n`;
 
-    // Include the Google Maps location
-    if (pickupInfo) {
-        message += `📍 Collection Point: ${pickupInfo.locationUrl}\n\n`;
-    }
+    // Customization note
+    message += `⚠️ *Please Note:* Customizations such as fondant work, photo cakes, special toppers, or designer decorations are available but will attract *additional charges*. Kindly discuss customization requirements before confirming the order.\n\n`;
 
     message += `Please confirm my order and let me know when it will be ready for collection. 🙏`;
 
