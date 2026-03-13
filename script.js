@@ -76,9 +76,7 @@ function renderProducts(filter) {
         }
 
         const isWeightedCat = isCake || isTeaCake;
-        // Tea cakes: price is per 500g, so multiply by (weight/0.5)
-        // Regular cakes: price is per kg
-        const priceLabel = isCake ? ' / kg' : (isTeaCake ? ' / 500g' : (isDonut ? ' each' : ''));
+        const priceLabel = isCake ? ' / kg' : (isDonut ? ' each' : '');
 
         card.innerHTML = `
             <div class="product-image-wrap" ${colorStyle}>

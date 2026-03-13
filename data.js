@@ -34,12 +34,12 @@ const PRODUCT_DATA = [
     { id: 'donut-mango', name: 'Mango Donut', category: 'donuts', price: 80, image: 'assets/donut_mango_1773420426406.png' },
 
     // Tea Cakes
-    { id: 'tea-cake-1', name: 'Vanilla Pound Tea Cake', category: 'tea-cakes', price: 600, priceUnit: 500, image: 'assets/tea_time_cake_1772978388914.png' },
-    { id: 'tea-cake-banana', name: 'Banana Tea Time Cake', category: 'tea-cakes', price: 600, priceUnit: 500, image: 'assets/teacake_banana_1773420443847.png' },
-    { id: 'tea-cake-oats-banana', name: 'Oats Banana Cake', category: 'tea-cakes', price: 650, priceUnit: 500, image: 'assets/teacake_oats_banana_1773420460437.png' },
-    { id: 'tea-cake-wheat-nuts', name: 'Wheat Nuts Cake', category: 'tea-cakes', price: 700, priceUnit: 500, image: 'assets/teacake_wheat_nuts_1773420478676.png' },
-    { id: 'tea-cake-millets-almond', name: 'Millets Almond Cake', category: 'tea-cakes', price: 750, priceUnit: 500, image: 'assets/teacake_millets_almond_1773420497012.png' },
-    { id: 'tea-cake-ragi-chocolate', name: 'Ragi Chocolate Cake', category: 'tea-cakes', price: 700, priceUnit: 500, image: 'assets/teacake_ragi_chocolate_1773420513727.png' }
+    { id: 'tea-cake-1', name: 'Vanilla Pound Tea Cake', category: 'tea-cakes', price: 300, image: 'assets/tea_time_cake_1772978388914.png' },
+    { id: 'tea-cake-banana', name: 'Banana Tea Time Cake', category: 'tea-cakes', price: 300, image: 'assets/teacake_banana_1773420443847.png' },
+    { id: 'tea-cake-oats-banana', name: 'Oats Banana Cake', category: 'tea-cakes', price: 350, image: 'assets/teacake_oats_banana_1773420460437.png' },
+    { id: 'tea-cake-wheat-nuts', name: 'Wheat Nuts Cake', category: 'tea-cakes', price: 400, image: 'assets/teacake_wheat_nuts_1773420478676.png' },
+    { id: 'tea-cake-millets-almond', name: 'Millets Almond Cake', category: 'tea-cakes', price: 350, image: 'assets/teacake_millets_almond_1773420497012.png' },
+    { id: 'tea-cake-ragi-chocolate', name: 'Ragi Chocolate Cake', category: 'tea-cakes', price: 350, image: 'assets/teacake_ragi_chocolate_1773420513727.png' }
 ];
 
 // --- Pickup / Self Collection Info ---
