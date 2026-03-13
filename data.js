@@ -1,42 +1,45 @@
 
 
 const PRODUCT_DATA = [
-    // Classic Favourites - 1kg
-    { id: 'cake-classic-pineapple-1kg', name: 'Pineapple Cake (1kg)', category: 'cakes', price: 900, image: 'assets/gourmet_cake_1772978336876.png' },
-    { id: 'cake-classic-butterscotch-1kg', name: 'Butterscotch Cake (1kg)', category: 'cakes', price: 900, image: 'assets/gourmet_cake_1772978336876.png' },
-    { id: 'cake-classic-strawberry-1kg', name: 'Strawberry Cake (1kg)', category: 'cakes', price: 900, image: 'assets/gourmet_cake_1772978336876.png' },
-    { id: 'cake-classic-blueberry-1kg', name: 'Blueberry Cake (1kg)', category: 'cakes', price: 900, image: 'assets/gourmet_cake_1772978336876.png' },
-    { id: 'cake-classic-vanilla-1kg', name: 'Vanilla Cake (1kg)', category: 'cakes', price: 900, image: 'assets/gourmet_cake_1772978336876.png' },
-    { id: 'cake-classic-blackforest-1kg', name: 'Blackforest Cake (1kg)', category: 'cakes', price: 900, image: 'assets/gourmet_cake_1772978336876.png' },
-    { id: 'cake-classic-whiteforest-1kg', name: 'White Forest Cake (1kg)', category: 'cakes', price: 900, image: 'assets/gourmet_cake_1772978336876.png' },
+    // Classic Favourites (Base Price / kg)
+    { id: 'cake-classic-pineapple', name: 'Pineapple Cake', category: 'cakes', price: 900, image: 'assets/gourmet_cake_1772978336876.png' },
+    { id: 'cake-classic-butterscotch', name: 'Butterscotch Cake', category: 'cakes', price: 900, image: 'assets/gourmet_cake_1772978336876.png' },
+    { id: 'cake-classic-strawberry', name: 'Strawberry Cake', category: 'cakes', price: 900, image: 'assets/gourmet_cake_1772978336876.png' },
+    { id: 'cake-classic-blueberry', name: 'Blueberry Cake', category: 'cakes', price: 900, image: 'assets/gourmet_cake_1772978336876.png' },
+    { id: 'cake-classic-vanilla', name: 'Vanilla Cake', category: 'cakes', price: 900, image: 'assets/gourmet_cake_1772978336876.png' },
+    { id: 'cake-classic-blackforest', name: 'Blackforest Cake', category: 'cakes', price: 900, image: 'assets/gourmet_cake_1772978336876.png' },
+    { id: 'cake-classic-whiteforest', name: 'White Forest Cake', category: 'cakes', price: 900, image: 'assets/gourmet_cake_1772978336876.png' },
 
-    // Classic Favourites - 0.5kg
-    { id: 'cake-classic-pineapple-half', name: 'Pineapple Cake (0.5kg)', category: 'cakes', price: 450, image: 'assets/gourmet_cake_1772978336876.png' },
-    { id: 'cake-classic-butterscotch-half', name: 'Butterscotch Cake (0.5kg)', category: 'cakes', price: 450, image: 'assets/gourmet_cake_1772978336876.png' },
-    { id: 'cake-classic-strawberry-half', name: 'Strawberry Cake (0.5kg)', category: 'cakes', price: 450, image: 'assets/gourmet_cake_1772978336876.png' },
-    { id: 'cake-classic-blueberry-half', name: 'Blueberry Cake (0.5kg)', category: 'cakes', price: 450, image: 'assets/gourmet_cake_1772978336876.png' },
-    { id: 'cake-classic-vanilla-half', name: 'Vanilla Cake (0.5kg)', category: 'cakes', price: 450, image: 'assets/gourmet_cake_1772978336876.png' },
-    { id: 'cake-classic-blackforest-half', name: 'Blackforest Cake (0.5kg)', category: 'cakes', price: 450, image: 'assets/gourmet_cake_1772978336876.png' },
-    { id: 'cake-classic-whiteforest-half', name: 'White Forest Cake (0.5kg)', category: 'cakes', price: 450, image: 'assets/gourmet_cake_1772978336876.png' },
+    // Premium Indulgence (Base Price / kg)
+    { id: 'cake-premium-richchocolate', name: 'Rich Chocolate Cake', category: 'cakes', price: 1200, image: 'assets/gourmet_cake_1772978336876.png' },
+    { id: 'cake-premium-nutella', name: 'Nutella Cake', category: 'cakes', price: 1200, image: 'assets/gourmet_cake_1772978336876.png' },
+    { id: 'cake-premium-biscoff', name: 'Biscoff Cake', category: 'cakes', price: 1200, image: 'assets/gourmet_cake_1772978336876.png' },
+    { id: 'cake-premium-almondbutterscotch', name: 'Almond Butterscotch Cake', category: 'cakes', price: 1200, image: 'assets/gourmet_cake_1772978336876.png' },
+    { id: 'cake-premium-ferrerorocher', name: 'Ferrero Rocher Cake', category: 'cakes', price: 1200, image: 'assets/gourmet_cake_1772978336876.png' },
 
-    // Premium Indulgence - 1kg
-    { id: 'cake-premium-richchocolate-1kg', name: 'Rich Chocolate Cake (1kg)', category: 'cakes', price: 1200, image: 'assets/gourmet_cake_1772978336876.png' },
-    { id: 'cake-premium-nutella-1kg', name: 'Nutella Cake (1kg)', category: 'cakes', price: 1200, image: 'assets/gourmet_cake_1772978336876.png' },
-    { id: 'cake-premium-biscoff-1kg', name: 'Biscoff Cake (1kg)', category: 'cakes', price: 1200, image: 'assets/gourmet_cake_1772978336876.png' },
-    { id: 'cake-premium-almondbutterscotch-1kg', name: 'Almond Butterscotch Cake (1kg)', category: 'cakes', price: 1200, image: 'assets/gourmet_cake_1772978336876.png' },
-    { id: 'cake-premium-ferrerorocher-1kg', name: 'Ferrero Rocher Cake (1kg)', category: 'cakes', price: 1200, image: 'assets/gourmet_cake_1772978336876.png' },
+    // Brownies
+    { id: 'brownie-nutella', name: 'Nutella Brownie', category: 'brownies', price: 800, image: 'brownie_nutella_1773420250871.png' },
+    { id: 'brownie-chocolate', name: 'Chocolate Brownie', category: 'brownies', price: 800, image: 'brownie_chocolate_1773420267557.png' },
+    { id: 'brownie-triple-chocolate', name: 'Triple Chocolate Brownie', category: 'brownies', price: 800, image: 'brownie_triple_chocolate_1773420284977.png' },
+    { id: 'brownie-walnut', name: 'Walnut Brownie', category: 'brownies', price: 800, image: 'brownie_walnut_1773420299735.png' },
+    { id: 'brownie-slab', name: 'Brownie Slab', category: 'brownies', price: 800, image: 'assets/fudge_brownies_1772978354574.png' },
+    { id: 'brownie-biscoff', name: 'Biscoff Brownie', category: 'brownies', price: 800, image: 'assets/fudge_brownies_1772978354574.png' },
 
-    // Premium Indulgence - 0.5kg
-    { id: 'cake-premium-richchocolate-half', name: 'Rich Chocolate Cake (0.5kg)', category: 'cakes', price: 600, image: 'assets/gourmet_cake_1772978336876.png' },
-    { id: 'cake-premium-nutella-half', name: 'Nutella Cake (0.5kg)', category: 'cakes', price: 600, image: 'assets/gourmet_cake_1772978336876.png' },
-    { id: 'cake-premium-biscoff-half', name: 'Biscoff Cake (0.5kg)', category: 'cakes', price: 600, image: 'assets/gourmet_cake_1772978336876.png' },
-    { id: 'cake-premium-almondbutterscotch-half', name: 'Almond Butterscotch Cake (0.5kg)', category: 'cakes', price: 600, image: 'assets/gourmet_cake_1772978336876.png' },
-    { id: 'cake-premium-ferrerorocher-half', name: 'Ferrero Rocher Cake (0.5kg)', category: 'cakes', price: 600, image: 'assets/gourmet_cake_1772978336876.png' },
+    // Donuts
+    { id: 'donut-nutella', name: 'Nutella Donut', category: 'donuts', price: 400, image: 'donut_nutella_1773420317329.png' },
+    { id: 'donut-biscoff', name: 'Biscoff Donut', category: 'donuts', price: 400, image: 'donut_biscoff_1773420335520.png' },
+    { id: 'donut-chocolate', name: 'Chocolate Donut', category: 'donuts', price: 400, image: 'donut_chocolate_1773420352423.png' },
+    { id: 'donut-strawberry', name: 'Strawberry Donut', category: 'donuts', price: 400, image: 'donut_strawberry_1773420391925.png' },
+    { id: 'donut-choc-chip', name: 'Chocolate Chip Donut', category: 'donuts', price: 400, image: 'donut_choc_chip_1773420408846.png' },
+    { id: 'donut-mango', name: 'Mango Donut', category: 'donuts', price: 400, image: 'donut_mango_1773420426406.png' },
 
-    // Other Items
-    { id: 'brownie-1', name: 'Decadent Fudge Brownies (0.5kg)', category: 'brownies', price: 800, image: 'assets/fudge_brownies_1772978354574.png' },
-    { id: 'donut-1', name: 'Assorted Gourmet Donuts (Box of 6)', category: 'donuts', price: 400, image: 'assets/assorted_donuts_1772978371743.png' },
-    { id: 'tea-cake-1', name: 'Vanilla Pound Tea Cake', category: 'tea-cakes', price: 600, image: 'assets/tea_time_cake_1772978388914.png' }
+    // Tea Cakes
+    { id: 'tea-cake-1', name: 'Vanilla Pound Tea Cake', category: 'tea-cakes', price: 600, image: 'assets/tea_time_cake_1772978388914.png' },
+    { id: 'tea-cake-banana', name: 'Banana Tea Time Cake', category: 'tea-cakes', price: 600, image: 'teacake_banana_1773420443847.png' },
+    { id: 'tea-cake-oats-banana', name: 'Oats Banana Cake', category: 'tea-cakes', price: 650, image: 'teacake_oats_banana_1773420460437.png' },
+    { id: 'tea-cake-wheat-nuts', name: 'Wheat Nuts Cake', category: 'tea-cakes', price: 700, image: 'teacake_wheat_nuts_1773420478676.png' },
+    { id: 'tea-cake-millets-almond', name: 'Millets Almond Cake', category: 'tea-cakes', price: 750, image: 'teacake_millets_almond_1773420497012.png' },
+    { id: 'tea-cake-ragi-chocolate', name: 'Ragi Chocolate Cake', category: 'tea-cakes', price: 700, image: 'teacake_ragi_chocolate_1773420513727.png' }
 ];
 
 // --- Recent Deliveries Data ---
