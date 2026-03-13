@@ -314,12 +314,14 @@ function openCart() {
     cartSidebar.classList.add('open');
     overlay.classList.add('active');
     document.body.style.overflow = 'hidden';
+    document.body.classList.add('cart-open');
 }
 
 function closeCart() {
     cartSidebar.classList.remove('open');
     overlay.classList.remove('active');
     document.body.style.overflow = '';
+    document.body.classList.remove('cart-open');
 }
 
 // --- WhatsApp Checkout Logic ---

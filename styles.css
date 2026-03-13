@@ -76,6 +76,10 @@ h2 {
     line-height: 1.4;
 }
 
+body.cart-open .preorder-banner {
+    display: none;
+}
+
 /* Self-Collection Info (used in Find Us section) */
 .pickup-banner {
     background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
