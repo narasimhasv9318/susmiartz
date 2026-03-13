@@ -371,27 +371,6 @@ function processCheckout() {
 }
 
 // --- Custom Cake Order Logic ---
-window.previewCustomImage = function (input) {
-    const fileNameElement = document.getElementById('customImageName');
-    const previewElement = document.getElementById('customImagePreview');
-
-    if (input.files && input.files[0]) {
-        const file = input.files[0];
-        fileNameElement.textContent = file.name;
-
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            previewElement.src = e.target.result;
-            previewElement.style.display = 'block';
-        }
-        reader.readAsDataURL(file);
-    } else {
-        fileNameElement.textContent = 'No file chosen';
-        previewElement.style.display = 'none';
-        previewElement.src = '';
-    }
-};
-
 window.handleCustomOrder = function (event) {
     event.preventDefault(); // Prevent traditional form submission
 
@@ -399,8 +378,6 @@ window.handleCustomOrder = function (event) {
     const weight = document.getElementById('customWeight').value;
     const egg = document.getElementById('customEgg').value;
     const notes = document.getElementById('customNotes').value.trim();
-    const imageInput = document.getElementById('customImage');
-    const hasImage = imageInput.files && imageInput.files.length > 0;
 
     // Delivery Date
     const dateInput = document.getElementById('customDeliveryDate');
@@ -420,10 +397,6 @@ window.handleCustomOrder = function (event) {
     message += `*Weight:* ${weight} Kg\n`;
     message += `*Type:* ${egg}\n`;
 
-    if (hasImage) {
-        message += `*Inspiration Image:* Yes (I am sending the image separately in this chat now)\n`;
-    }
-
     if (notes) {
         message += `\n*Customization Details:*\n${notes}\n`;
     }
@@ -439,11 +412,6 @@ window.handleCustomOrder = function (event) {
 
     // Open WhatsApp
     window.open(whatsappUrl, '_blank');
-
-    // If they selected an image, remind them to actually send it since browsers cannot auto-attach local files to web WhatsApp
-    if (hasImage) {
-        alert("IMPORTANT: WhatsApp does not allow websites to auto-attach files. Please remember to manually tap the 📎 (attachment) icon in WhatsApp and send your inspiration image!");
-    }
 };
 
 // --- Event Listeners ---
