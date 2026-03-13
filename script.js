@@ -37,7 +37,12 @@ function renderProducts(filter) {
     filteredProducts.forEach((product, index) => {
         const card = document.createElement('div');
         card.className = 'product-card';
-        card.style.animationDelay = `${index * 0.1}s`; // Staggered animation
+        card.style.animationDelay = `${index * 0.1}s`;
+
+        // Apply a subtle color tint overlay for cake variety if color is set
+        const colorStyle = product.color
+            ? `style="--card-accent: ${product.color};"`
+            : '';
 
         let extraHtml = '';
         if (product.category === 'cakes' || product.category === 'tea-cakes') {
@@ -57,7 +62,11 @@ function renderProducts(filter) {
         const isWeightedCat = product.category === 'cakes' || product.category === 'tea-cakes';
 
         card.innerHTML = `
-            <img src="${product.image}" alt="${product.name}" class="product-image" loading="lazy">
+            <div class="product-image-wrap" ${colorStyle}>
+                <img src="${product.image}" alt="${product.name}" class="product-image" loading="lazy"
+                    onerror="this.onerror=null; this.src='assets/gourmet_cake_1772978336876.png';">
+                ${product.color ? `<div class="product-color-badge" style="background:${product.color}"></div>` : ''}
+            </div>
             <div class="product-info">
                 <span class="product-category">${product.category.replace('-', ' ')}</span>
                 <h3 class="product-title">${product.name}</h3>
@@ -108,9 +117,7 @@ window.addToCart = function (productId) {
         }
     }
 
-    // Create a unique cart item ID based on the weight so they don't merge if they have different weights
     const cartItemId = isWeightedCat ? `${productId}-${selectedWeight}` : productId;
-
     const existingItem = cart.find(item => item.cartItemId === cartItemId);
 
     if (existingItem) {
@@ -148,18 +155,14 @@ window.removeFromCart = function (cartItemId) {
 };
 
 function updateCartUI() {
-    // Update count
     const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
     cartCountElement.textContent = totalItems;
 
-    // Update total cost
     const totalCost = cart.reduce((sum, item) => sum + (item.cartPrice * item.quantity), 0);
     cartTotalCostElement.textContent = `₹${totalCost.toFixed(2)}`;
 
-    // Enable/Disable checkout
     checkoutBtn.disabled = cart.length === 0;
 
-    // Render items
     if (cart.length === 0) {
         cartItemsContainer.innerHTML = `<div class="empty-cart-msg">Your cart is empty. Let's add some treats!</div>`;
         return;
@@ -172,7 +175,8 @@ function updateCartUI() {
         const cartItemEl = document.createElement('div');
         cartItemEl.className = 'cart-item';
         cartItemEl.innerHTML = `
-            <img src="${item.image}" alt="${item.name}">
+            <img src="${item.image}" alt="${item.name}"
+                onerror="this.onerror=null; this.src='assets/gourmet_cake_1772978336876.png';">
             <div class="cart-item-details">
                 <div class="cart-item-title">${item.name}${weightLabel}</div>
                 <div class="cart-item-price">₹${item.cartPrice.toFixed(2)}</div>
@@ -196,7 +200,7 @@ function updateCartUI() {
 function openCart() {
     cartSidebar.classList.add('open');
     overlay.classList.add('active');
-    document.body.style.overflow = 'hidden'; // Prevent scrolling
+    document.body.style.overflow = 'hidden';
 }
 
 function closeCart() {
@@ -209,26 +213,33 @@ function closeCart() {
 function processCheckout() {
     if (cart.length === 0) return;
 
-    // Replace with ACTUAL phone number including country code, e.g., '1234567890'
-    // I am using a placeholder for now as requested.
     const phoneNumber = '+919700879944';
+    const pickupInfo = typeof PICKUP_INFO !== 'undefined' ? PICKUP_INFO : null;
 
-    let message = `Hello SusmiArtz! I would like to place an order:\n\n`;
+    let message = `Hello SusmiArtz! 🎂 I would like to place an order:\n\n`;
 
     cart.forEach(item => {
         const isWeightedCat = item.category === 'cakes' || item.category === 'tea-cakes';
         const weightText = isWeightedCat ? ` (${item.selectedWeight} Kg)` : '';
-        message += `* ${item.quantity}x ${item.name}${weightText} (₹${(item.cartPrice * item.quantity).toFixed(2)})\n`;
+        message += `• ${item.quantity}x ${item.name}${weightText} — ₹${(item.cartPrice * item.quantity).toFixed(2)}\n`;
     });
 
     const totalCost = cart.reduce((sum, item) => sum + (item.cartPrice * item.quantity), 0);
-    message += `\n*Total Bill: ₹${totalCost.toFixed(2)}*\n\n`;
-    message += `Please confirm my order and share payment details.`;
+    message += `\n*Total: ₹${totalCost.toFixed(2)}*\n\n`;
+
+    // Self-collection notice
+    message += `📦 *Order Type: Self-Collection*\n`;
+    message += `I will collect my order from your location.\n`;
+
+    // Include the Google Maps location
+    if (pickupInfo) {
+        message += `📍 Collection Point: ${pickupInfo.locationUrl}\n\n`;
+    }
+
+    message += `Please confirm my order and let me know when it will be ready for collection. 🙏`;
 
     const encodedMessage = encodeURIComponent(message);
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
-
-    // Open in new tab
     window.open(whatsappUrl, '_blank');
 }
 
@@ -239,14 +250,10 @@ function setupEventListeners() {
     overlay.addEventListener('click', closeCart);
     checkoutBtn.addEventListener('click', processCheckout);
 
-    // Filter Buttons
     filterBtns.forEach(btn => {
         btn.addEventListener('click', (e) => {
-            // Remove active class from all
             filterBtns.forEach(b => b.classList.remove('active'));
-            // Add to clicked
             e.target.classList.add('active');
-            // Re-render
             const filter = e.target.getAttribute('data-filter');
             renderProducts(filter);
         });

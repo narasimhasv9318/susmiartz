@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SusmiArtz - Recent Deliveries</title>
+    <title>SusmiArtz - Happy Collections | Home Bakery Hyderabad</title>
+
     <!-- Google Fonts for typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,6 +16,12 @@
 </head>
 
 <body>
+    <!-- Self-Collection Top Banner -->
+    <div class="pickup-banner">
+        <span>🛍️ <strong>Self-Collection Only</strong> — We do not deliver. Please collect your order from our
+            location.</span>
+        <a href="https://share.google/tC4LkPK85T9SBgXlo" target="_blank" rel="noopener">📍 View Location</a>
+    </div>
     <!-- Navbar -->
     <nav class="navbar">
         <a href="index.html" style="text-decoration: none;">
@@ -23,7 +30,7 @@
         <div style="display: flex; gap: 1.5rem; align-items: center;">
             <a href="index.html" style="text-decoration: none; font-weight: 600; color: var(--text-main);">Menu</a>
             <a href="deliveries.html"
-                style="text-decoration: none; font-weight: 600; color: var(--primary-color);">Deliveries</a>
+                style="text-decoration: none; font-weight: 600; color: var(--primary-color);">Collections</a>
         </div>
     </nav>
 
@@ -31,8 +38,11 @@
     <header class="hero"
         style="min-height: 40vh; align-items: center; justify-content: center; text-align: center; background: radial-gradient(circle at center, #ffecec 0%, var(--background-color) 70%);">
         <div class="hero-content" style="max-width: 800px; margin: 0 auto; margin-top: 40px;">
-            <h1>Recent Deliveries</h1>
-            <p>Spreading joy across the city, one box at a time. See where our latest baked creations have travelled!
+            <h1>Happy Collections 🎉</h1>
+            <p>Take a look at some of the beautiful orders our customers have collected — made fresh with love at
+                SusmiArtz! <strong>All orders are self-collected.</strong><br>
+                <a href="https://share.google/tC4LkPK85T9SBgXlo" target="_blank" rel="noopener"
+                    style="color: var(--primary-color); font-weight: 700;">📍 View our collection point</a>
             </p>
         </div>
     </header>
@@ -44,51 +54,51 @@
         </div>
     </main>
 
+    <script src="data.js"></script>
     <script>
         const deliveriesGrid = document.getElementById('deliveriesGrid');
 
-        // Automatically loads from deliveries.json — just add a new entry there for each new delivery!
-        fetch('deliveries.json')
-            .then(res => res.json())
-            .then(deliveries => {
-                if (!deliveries || deliveries.length === 0) {
-                    deliveriesGrid.innerHTML = '<p style="text-align: center; grid-column: 1 / -1; color: var(--text-muted);">No recent deliveries to show.</p>';
-                    return;
-                }
+        function renderDeliveries() {
+            const deliveries = typeof DELIVERIES_DATA !== 'undefined' ? DELIVERIES_DATA : [];
 
-                deliveries.forEach((delivery, index) => {
-                    const card = document.createElement('div');
-                    card.className = 'product-card';
-                    card.style.animationDelay = `${index * 0.1}s`;
+            if (!deliveries || deliveries.length === 0) {
+                deliveriesGrid.innerHTML = '<p style="text-align: center; grid-column: 1 / -1; color: var(--text-muted);">No recent collections to show yet.</p>';
+                return;
+            }
 
-                    const customerNameHtml = delivery.customerName ? `<h3 class="product-title" style="font-size: 1.1rem; margin-top: 0.5rem;">To: ${delivery.customerName}</h3>` : '';
-                    const locationHtml = delivery.location ? `<p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.5rem;">📍 ${delivery.location}</p>` : '';
-                    const itemsHtml = delivery.items ? `<p style="font-size: 0.9rem; margin-bottom: 1rem; line-height: 1.4;"><strong>Items:</strong> <br>${delivery.items}</p>` : '<div style="flex-grow: 1;"></div>';
-                    const statusHtml = delivery.status ? delivery.status : 'Delivered';
+            deliveriesGrid.innerHTML = '';
+            deliveries.forEach((delivery, index) => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.style.animationDelay = `${index * 0.1}s`;
 
-                    card.innerHTML = `
-                        <img src="${delivery.image}" alt="Delivery image" class="product-image" loading="lazy">
-                        <div class="product-info">
-                            <span class="product-category" style="color: #25D366; display: flex; align-items: center; gap: 4px;">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                                ${statusHtml}
-                            </span>
-                            ${customerNameHtml}
-                            ${locationHtml}
-                            ${itemsHtml}
-                            <div class="product-price" style="font-size: 0.85rem; color: var(--text-muted); margin-top: auto; display: flex; align-items: center; gap: 4px;">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                                ${delivery.date}
-                            </div>
+                const customerNameHtml = delivery.customerName ? `<h3 class="product-title" style="font-size: 1.1rem; margin-top: 0.5rem;">To: ${delivery.customerName}</h3>` : '';
+                const locationHtml = delivery.location ? `<p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.5rem;">📍 ${delivery.location}</p>` : '';
+                const itemsHtml = delivery.items ? `<p style="font-size: 0.9rem; margin-bottom: 1rem; line-height: 1.4;"><strong>Items:</strong> <br>${delivery.items}</p>` : '<div style="flex-grow: 1;"></div>';
+                const statusHtml = delivery.status ? delivery.status : 'Collected';
+
+                card.innerHTML = `
+                    <img src="${delivery.image}" alt="Collection image" class="product-image" loading="lazy"
+                        onerror="this.onerror=null; this.src='assets/bakery_delivery_box.png';">
+                    <div class="product-info">
+                        <span class="product-category" style="color: #25D366; display: flex; align-items: center; gap: 4px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                            ${statusHtml}
+                        </span>
+                        ${customerNameHtml}
+                        ${locationHtml}
+                        ${itemsHtml}
+                        <div class="product-price" style="font-size: 0.85rem; color: var(--text-muted); margin-top: auto; display: flex; align-items: center; gap: 4px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                            ${delivery.date}
                         </div>
-                    `;
-                    deliveriesGrid.appendChild(card);
-                });
-            })
-            .catch(err => {
-                deliveriesGrid.innerHTML = '<p style="text-align: center; grid-column: 1 / -1; color: var(--text-muted);">Could not load deliveries. Make sure deliveries.json exists.</p>';
-                console.error('Failed to load deliveries.json:', err);
+                    </div>
+                `;
+                deliveriesGrid.appendChild(card);
             });
+        }
+
+        renderDeliveries();
     </script>
 </body>
 

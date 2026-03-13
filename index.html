@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SusmiArtz - Premium Bakery</title>
+    <title>SusmiArtz - Premium Bakery | Self-Collection Hyderabad</title>
+    <meta name="description"
+        content="SusmiArtz - Artisanal cakes, brownies, donuts and tea cakes in Hyderabad. Order via WhatsApp and self-collect from our location.">
     <!-- Google Fonts for typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,9 +14,166 @@
         href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Self-collection banner */
+        .pickup-banner {
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            color: #fff;
+            text-align: center;
+            padding: 0.75rem 1.5rem;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .pickup-banner a {
+            color: #fff;
+            text-decoration: underline;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .pickup-banner a:hover {
+            opacity: 0.85;
+        }
+
+        /* Find Us section */
+        .findus-section {
+            background: var(--bg-card, #fff);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .findus-section .section-title {
+            margin-bottom: 0.75rem;
+        }
+
+        .findus-subtitle {
+            color: var(--text-muted, #666);
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            max-width: 520px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .findus-card {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.25rem;
+            background: linear-gradient(135deg, #fff8f0 0%, #fff3e0 100%);
+            border: 2px solid #ffd09b;
+            border-radius: 20px;
+            padding: 2.5rem 3rem;
+            max-width: 440px;
+            width: 100%;
+        }
+
+        .findus-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            box-shadow: 0 4px 20px rgba(255, 107, 53, 0.35);
+        }
+
+        .findus-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            color: var(--text-main, #1a1a1a);
+            margin: 0;
+        }
+
+        .findus-card p {
+            color: var(--text-muted, #666);
+            font-size: 0.95rem;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .findus-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            color: #fff;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 0.8rem 1.8rem;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 16px rgba(255, 107, 53, 0.35);
+        }
+
+        .findus-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(255, 107, 53, 0.45);
+        }
+
+        .collection-note {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 10px;
+            padding: 0.6rem 1.1rem;
+            font-size: 0.85rem;
+            color: #7a5800;
+            font-weight: 600;
+        }
+
+        /* Product image wrap for color badge */
+        .product-image-wrap {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .product-color-badge {
+            display: none;
+            /* Hidden by default, only used as accent */
+        }
+
+        /* Cart self-collection note */
+        .cart-pickup-note {
+            background: linear-gradient(135deg, #fff3e0, #fff8f0);
+            border-left: 4px solid #f7931e;
+            border-radius: 0 8px 8px 0;
+            padding: 0.75rem 1rem;
+            margin: 0 1rem 0.75rem;
+            font-size: 0.8rem;
+            color: #7a4a00;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .cart-pickup-note a {
+            color: #e8620a;
+            font-weight: 700;
+            text-decoration: underline;
+        }
+    </style>
 </head>
 
 <body>
+    <!-- Self-Collection Top Banner -->
+    <div class="pickup-banner">
+        <span>🛍️ <strong>Self-Collection Only</strong> — We do not deliver. Please collect your order from our
+            location.</span>
+        <a href="https://share.google/tC4LkPK85T9SBgXlo" target="_blank" rel="noopener">📍 View Location</a>
+    </div>
+
     <!-- Navbar and Shopping Cart Toggle -->
     <nav class="navbar">
         <a href="index.html" style="text-decoration: none;">
@@ -51,7 +210,6 @@
     <main id="menu" class="menu-section">
         <h2 class="section-title">Our Creations</h2>
 
-        <!-- Category Filter (Optional logic, leaving structured for future proofing or pure CSS display) -->
         <div class="category-filters">
             <button class="filter-btn active" data-filter="all">All</button>
             <button class="filter-btn" data-filter="cakes">Cakes</button>
@@ -64,6 +222,27 @@
             <!-- Dynamic product items will be injected here by JavaScript -->
         </div>
     </main>
+
+    <!-- Find Us / Self-Collection Section -->
+    <section class="findus-section" id="find-us">
+        <h2 class="section-title">Find Us</h2>
+        <p class="findus-subtitle">We're a home bakery — all orders are <strong>self-collected</strong>. Place your
+            order via WhatsApp and pick it up at a time that works for you!</p>
+        <div class="findus-card">
+            <div class="findus-icon">📍</div>
+            <h3>Our Collection Point</h3>
+            <p>Hyderabad, Telangana<br>Order via WhatsApp · Collect at your convenience</p>
+            <div class="collection-note">⚠️ Self-Collection Only — No doorstep delivery</div>
+            <a href="https://share.google/tC4LkPK85T9SBgXlo" target="_blank" rel="noopener" class="findus-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                    <circle cx="12" cy="10" r="3" />
+                </svg>
+                Open in Google Maps
+            </a>
+        </div>
+    </section>
 
     <!-- Customer Reviews Section -->
     <section class="reviews-section" id="reviews">
@@ -88,8 +267,14 @@
     <!-- Shopping Cart Sidebar -->
     <aside class="cart-sidebar" id="cartSidebar">
         <div class="cart-header">
-            <h3>Your Cart</h3>
+            <h3>Your Order</h3>
             <button class="close-cart" id="closeCart">&times;</button>
+        </div>
+        <!-- Self-collection notice inside cart -->
+        <div class="cart-pickup-note">
+            🛍️ <strong>Self-Collection Only.</strong> After placing your order, collect from our location.
+            <br><a href="https://share.google/tC4LkPK85T9SBgXlo" target="_blank" rel="noopener">📍 View Collection
+                Point</a>
         </div>
         <div class="cart-items" id="cartItems">
             <!-- Cart items will be listed here -->
