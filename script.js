@@ -326,9 +326,20 @@ function closeCart() {
 function processCheckout() {
     if (cart.length === 0) return;
 
+    const dateInput = document.getElementById('deliveryDate');
+    if (!dateInput.value) {
+        alert("Please select a Delivery Date before ordering. Note: We require 1 day prior notice.");
+        dateInput.focus();
+        return;
+    }
+
+    const deliveryDateStr = new Date(dateInput.value).toLocaleDateString('en-IN', {
+        weekday: 'short', year: 'numeric', month: 'short', day: 'numeric'
+    });
+
     const phoneNumber = '+919700879944';
 
-    let message = `Hello SusmiArtz! 🎂 I would like to place an order:\n\n`;
+    let message = `Hello SusmiArtz! 🎂 I would like to place an order for delivery on *${deliveryDateStr}*:\n\n`;
 
     cart.forEach(item => {
         const isTeaCake = item.category === 'tea-cakes';
@@ -359,6 +370,68 @@ function processCheckout() {
     window.open(whatsappUrl, '_blank');
 }
 
+// --- Custom Cake Order Logic ---
+window.previewCustomImage = function (input) {
+    const fileNameElement = document.getElementById('customImageName');
+    const previewElement = document.getElementById('customImagePreview');
+
+    if (input.files && input.files[0]) {
+        const file = input.files[0];
+        fileNameElement.textContent = file.name;
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            previewElement.src = e.target.result;
+            previewElement.style.display = 'block';
+        }
+        reader.readAsDataURL(file);
+    } else {
+        fileNameElement.textContent = 'No file chosen';
+        previewElement.style.display = 'none';
+        previewElement.src = '';
+    }
+};
+
+window.handleCustomOrder = function (event) {
+    event.preventDefault(); // Prevent traditional form submission
+
+    const flavor = document.getElementById('customFlavor').value;
+    const weight = document.getElementById('customWeight').value;
+    const egg = document.getElementById('customEgg').value;
+    const notes = document.getElementById('customNotes').value.trim();
+    const imageInput = document.getElementById('customImage');
+    const hasImage = imageInput.files && imageInput.files.length > 0;
+
+    const phoneNumber = '+919700879944';
+
+    let message = `Hello SusmiArtz! 🎂 I would like to request a quotation for a *Custom Cake Design*:\n\n`;
+    message += `*Base Flavor:* ${flavor}\n`;
+    message += `*Weight:* ${weight} Kg\n`;
+    message += `*Type:* ${egg}\n`;
+
+    if (hasImage) {
+        message += `*Inspiration Image:* Yes (I will send the image separately in this chat)\n`;
+    }
+
+    if (notes) {
+        message += `\n*Customization Details / Notes:*\n${notes}\n`;
+    }
+
+    message += `\n⚠️ I understand that the final price will be determined based on the design complexity, fondant work, and specific decorations required.\n\n`;
+    message += `Please review my request and let me know the estimated cost. 🙏`;
+
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+
+    // Open WhatsApp
+    window.open(whatsappUrl, '_blank');
+
+    // If they selected an image, remind them to actually send it since web links can't auto-attach local files to WhatsApp
+    if (hasImage) {
+        alert("Awesome! We're redirecting you to WhatsApp. Please remember to manually attach and send the inspiration image you selected to us in the chat!");
+    }
+};
+
 // --- Event Listeners ---
 function setupEventListeners() {
     cartToggle.addEventListener('click', openCart);
@@ -374,6 +447,17 @@ function setupEventListeners() {
             renderProducts(filter);
         });
     });
+
+    // Set minimum delivery date to tomorrow
+    const dateInput = document.getElementById('deliveryDate');
+    if (dateInput) {
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        const yyyy = tomorrow.getFullYear();
+        const mm = String(tomorrow.getMonth() + 1).padStart(2, '0');
+        const dd = String(tomorrow.getDate()).padStart(2, '0');
+        dateInput.min = `${yyyy}-${mm}-${dd}`;
+    }
 }
 
 // Boot up
