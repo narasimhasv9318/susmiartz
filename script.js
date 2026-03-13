@@ -77,6 +77,19 @@ function renderProducts(filter) {
 
         const isWeightedCat = isCake || isTeaCake;
         const priceLabel = isCake ? ' / kg' : (isDonut ? ' each' : '');
+        const hasEggOption = isCake || isTeaCake || product.category === 'brownies';
+        let eggHtml = '';
+        if (hasEggOption) {
+            eggHtml = `<select class="weight-select" id="egg-${product.id}" style="margin-top: 0.5rem;" onchange="updatePriceDisplay('${product.id}')">
+                <option value="With Egg">With Egg</option>
+                <option value="Eggless">Eggless (+₹100/kg)</option>
+            </select>`;
+        }
+
+        // Add onchange to weight select as well for dynamic price tracking
+        if (extraHtml.includes('class="weight-select"')) {
+            extraHtml = extraHtml.replace('class="weight-select"', `class="weight-select" onchange="updatePriceDisplay('${product.id}')"`);
+        }
 
         card.innerHTML = `
             <div class="product-image-wrap" ${colorStyle}>
@@ -87,12 +100,20 @@ function renderProducts(filter) {
             <div class="product-info">
                 <span class="product-category">${product.category.replace('-', ' ')}</span>
                 <h3 class="product-title">${product.name}</h3>
-                <div class="product-price">₹${product.price.toFixed(2)}${priceLabel}</div>
-                ${extraHtml}
+                <p class="product-description" style="font-size: 0.85rem; color: var(--text-muted); margin: 0.25rem 0 0.75rem; line-height: 1.4; flex-grow: 1;">${product.description || ''}</p>
+                <div class="product-price">₹<span id="price-display-${product.id}">${product.price.toFixed(2)}</span>${priceLabel}</div>
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                    ${extraHtml}
+                    ${eggHtml}
+                </div>
                 <button class="add-to-cart-btn" onclick="addToCart('${product.id}')">Add to Order</button>
             </div>
         `;
         productGrid.appendChild(card);
+        // Initialize dynamic price
+        if (isWeightedCat || hasEggOption) {
+            updatePriceDisplay(product.id, false);
+        }
     });
 }
 
@@ -121,6 +142,36 @@ function renderReviews() {
     }
 }
 
+// --- Dynamic Price Display ---
+window.updatePriceDisplay = function (productId) {
+    const product = products.find(p => p.id === productId);
+    if (!product) return;
+
+    const isCake = product.category === 'cakes';
+    const isTeaCake = product.category === 'tea-cakes';
+    const isBrownie = product.category === 'brownies';
+
+    let basePrice = product.price;
+
+    const eggSelect = document.getElementById(`egg-${productId}`);
+    const isEggless = eggSelect && eggSelect.value === 'Eggless';
+
+    if (isEggless) {
+        // Add ₹100 per kg to the base rate
+        // For tea cakes (base is per 500g), so add 50 to the base price of ₹300/500g
+        if (isTeaCake) {
+            basePrice += 50;
+        } else {
+            basePrice += 100;
+        }
+    }
+
+    const priceDisplay = document.getElementById(`price-display-${productId}`);
+    if (priceDisplay) {
+        priceDisplay.textContent = basePrice.toFixed(2);
+    }
+};
+
 // --- Cart Logic ---
 window.addToCart = function (productId) {
     const product = products.find(p => p.id === productId);
@@ -132,6 +183,9 @@ window.addToCart = function (productId) {
     let selectedWeight = isTeaCake ? 0.5 : 1;
     let selectedQty = 1;
 
+    const hasEggOption = isCake || isTeaCake || product.category === 'brownies';
+    let selectedEgg = null;
+
     if (isWeightedCat) {
         const weightSelect = document.getElementById(`weight-${productId}`);
         if (weightSelect) selectedWeight = parseFloat(weightSelect.value);
@@ -140,26 +194,43 @@ window.addToCart = function (productId) {
         const qtySelect = document.getElementById(`qty-${productId}`);
         if (qtySelect) selectedQty = parseInt(qtySelect.value);
     }
+    if (hasEggOption) {
+        const eggSelect = document.getElementById(`egg-${productId}`);
+        if (eggSelect) selectedEgg = eggSelect.value;
+    }
 
-    const cartItemId = isWeightedCat ? `${productId}-${selectedWeight}` : productId;
+    let cartItemId = productId;
+    if (isWeightedCat) cartItemId += `-${selectedWeight}`;
+    if (hasEggOption) cartItemId += `-${selectedEgg}`;
+
     const existingItem = cart.find(item => item.cartItemId === cartItemId);
 
     if (existingItem) {
         existingItem.quantity += isDonut ? selectedQty : 1;
     } else {
+        let basePrice = product.price;
+        if (selectedEgg === 'Eggless') {
+            if (isTeaCake) {
+                basePrice += 50; // base price is per 500g, so +50 per 500g
+            } else {
+                basePrice += 100; // base price is per 1kg, so +100
+            }
+        }
+
         // Tea cakes: listed price is per 500g, so calculate proportionally
         let itemPrice;
         if (isTeaCake) {
-            itemPrice = product.price * (selectedWeight / 0.5);
+            itemPrice = basePrice * (selectedWeight / 0.5);
         } else if (isCake) {
-            itemPrice = product.price * selectedWeight;
+            itemPrice = basePrice * selectedWeight;
         } else {
-            itemPrice = product.price;
+            itemPrice = basePrice;
         }
         cart.push({
             ...product,
             cartItemId,
             selectedWeight: isWeightedCat ? selectedWeight : null,
+            selectedEgg: selectedEgg,
             cartPrice: itemPrice,
             quantity: isDonut ? selectedQty : 1
         });
@@ -210,6 +281,9 @@ function updateCartUI() {
                 ? `${Math.round(w * 1000)}g`
                 : `${w} Kg`;
             weightLabel = ` <span style="font-size: 0.8rem; color: var(--text-muted);">(${wStr})</span>`;
+        }
+        if (item.selectedEgg) {
+            weightLabel += ` <span style="font-size: 0.8rem; color: var(--text-main);">[${item.selectedEgg}]</span>`;
         }
         const cartItemEl = document.createElement('div');
         cartItemEl.className = 'cart-item';
@@ -265,7 +339,8 @@ function processCheckout() {
             const wStr = (isTeaCake && w < 1) ? `${Math.round(w * 1000)}g` : `${w} Kg`;
             weightText = ` (${wStr})`;
         }
-        message += `• ${item.quantity}x ${item.name}${weightText} — ₹${(item.cartPrice * item.quantity).toFixed(2)}\n`;
+        const eggText = item.selectedEgg ? ` [${item.selectedEgg}]` : '';
+        message += `• ${item.quantity}x ${item.name}${weightText}${eggText} — ₹${(item.cartPrice * item.quantity).toFixed(2)}\n`;
     });
 
     const totalCost = cart.reduce((sum, item) => sum + (item.cartPrice * item.quantity), 0);
@@ -275,7 +350,7 @@ function processCheckout() {
     message += `📍 *Collection Point (Self-Pickup):*\nhttps://share.google/tC4LkPK85T9SBgXlo\n\n`;
 
     // Customization note
-    message += `⚠️ *Please Note:* Customizations such as fondant work, photo cakes, special toppers, or designer decorations are available but will attract *additional charges*. Kindly discuss customization requirements before confirming the order.\n\n`;
+    message += `⚠️ *Customization Notice:* Customizations will be charged extra. Customizations can be a specific design which involves fondant work, images, or any specific decoration items for cakes. Please mention your requirements when ordering to confirm the additional cost.\n\n`;
 
     message += `Please confirm my order and let me know when it will be ready for collection. 🙏`;
 
