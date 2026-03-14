@@ -48,6 +48,7 @@ function renderProducts(filter) {
         const isCake = product.category === 'cakes';
         const isTeaCake = product.category === 'tea-cakes';
         const isDonut = product.category === 'donuts';
+        const isBrownie = product.category === 'brownies';
 
         if (isCake) {
             // Cakes: 0.5 kg to 10 kg in 0.5 kg steps
@@ -73,10 +74,20 @@ function renderProducts(filter) {
                 optionsHtml += `<option value="${i}">${i} Donut${i > 1 ? 's' : ''}</option>`;
             }
             extraHtml = `<select class="weight-select" id="qty-${product.id}">${optionsHtml}</select>`;
+        } else if (isBrownie) {
+            // Brownies: 500g to 2 kg in 500g steps (price in data.js is per 500g)
+            const brownieWeights = [0.5, 1, 1.5, 2];
+            let optionsHtml = '';
+            brownieWeights.forEach(w => {
+                const label = w < 1 ? `${Math.round(w * 1000)}g` : `${w} Kg`;
+                const selected = w === 0.5 ? 'selected' : '';
+                optionsHtml += `<option value="${w}" ${selected}>${label}</option>`;
+            });
+            extraHtml = `<select class="weight-select" id="weight-${product.id}">${optionsHtml}</select>`;
         }
 
-        const isWeightedCat = isCake || isTeaCake;
-        const priceLabel = isCake ? ' / kg' : (isDonut ? ' each' : '');
+        const isWeightedCat = isCake || isTeaCake || isBrownie;
+        const priceLabel = isCake ? ' / kg' : (isDonut ? ' each' : (isBrownie ? ' / 500g' : ''));
         const hasEggOption = isCake || isTeaCake || product.category === 'brownies';
         let eggHtml = '';
         if (hasEggOption) {
@@ -111,7 +122,7 @@ function renderProducts(filter) {
         `;
         productGrid.appendChild(card);
         // Initialize dynamic price
-        if (isWeightedCat || hasEggOption) {
+        if (isWeightedCat || isBrownie || hasEggOption) {
             updatePriceDisplay(product.id, false);
         }
     });
@@ -151,19 +162,31 @@ window.updatePriceDisplay = function (productId) {
     const isTeaCake = product.category === 'tea-cakes';
     const isBrownie = product.category === 'brownies';
 
-    let basePrice = product.price;
+    let basePrice = product.price; // for brownies this is per 500g
 
     const eggSelect = document.getElementById(`egg-${productId}`);
     const isEggless = eggSelect && eggSelect.value === 'Eggless';
 
     if (isEggless) {
         // Add ₹100 per kg to the base rate
-        // For tea cakes (base is per 500g), so add 50 to the base price of ₹300/500g
-        if (isTeaCake) {
+        // For tea cakes / brownies (base is per 500g), so add 50 per 500g
+        if (isTeaCake || isBrownie) {
             basePrice += 50;
         } else {
             basePrice += 100;
         }
+    }
+
+    // For brownies, show the price scaled to the selected weight
+    if (isBrownie) {
+        const weightSelect = document.getElementById(`weight-${productId}`);
+        const selectedWeight = weightSelect ? parseFloat(weightSelect.value) : 0.5;
+        const multiplier = selectedWeight / 0.5; // price is per 500g
+        const priceDisplay = document.getElementById(`price-display-${productId}`);
+        if (priceDisplay) {
+            priceDisplay.textContent = (basePrice * multiplier).toFixed(2);
+        }
+        return;
     }
 
     const priceDisplay = document.getElementById(`price-display-${productId}`);
@@ -178,12 +201,13 @@ window.addToCart = function (productId) {
     const isCake = product.category === 'cakes';
     const isTeaCake = product.category === 'tea-cakes';
     const isDonut = product.category === 'donuts';
-    const isWeightedCat = isCake || isTeaCake;
+    const isBrownie = product.category === 'brownies';
+    const isWeightedCat = isCake || isTeaCake || isBrownie;
 
-    let selectedWeight = isTeaCake ? 0.5 : 1;
+    let selectedWeight = isTeaCake || isBrownie ? 0.5 : 1;
     let selectedQty = 1;
 
-    const hasEggOption = isCake || isTeaCake || product.category === 'brownies';
+    const hasEggOption = isCake || isTeaCake || isBrownie;
     let selectedEgg = null;
 
     if (isWeightedCat) {
@@ -208,18 +232,18 @@ window.addToCart = function (productId) {
     if (existingItem) {
         existingItem.quantity += isDonut ? selectedQty : 1;
     } else {
-        let basePrice = product.price;
+        let basePrice = product.price; // for brownies this is per 500g
         if (selectedEgg === 'Eggless') {
-            if (isTeaCake) {
+            if (isTeaCake || isBrownie) {
                 basePrice += 50; // base price is per 500g, so +50 per 500g
             } else {
                 basePrice += 100; // base price is per 1kg, so +100
             }
         }
 
-        // Tea cakes: listed price is per 500g, so calculate proportionally
+        // Tea cakes & brownies: listed price is per 500g, scale proportionally
         let itemPrice;
-        if (isTeaCake) {
+        if (isTeaCake || isBrownie) {
             itemPrice = basePrice * (selectedWeight / 0.5);
         } else if (isCake) {
             itemPrice = basePrice * selectedWeight;
@@ -273,11 +297,11 @@ function updateCartUI() {
 
     cartItemsContainer.innerHTML = '';
     cart.forEach(item => {
-        const isWeightedCat = item.category === 'cakes' || item.category === 'tea-cakes';
+        const isWeightedCat = item.category === 'cakes' || item.category === 'tea-cakes' || item.category === 'brownies';
         let weightLabel = '';
         if (isWeightedCat && item.selectedWeight) {
             const w = item.selectedWeight;
-            const wStr = (item.category === 'tea-cakes' && w < 1)
+            const wStr = ((item.category === 'tea-cakes' || item.category === 'brownies') && w < 1)
                 ? `${Math.round(w * 1000)}g`
                 : `${w} Kg`;
             weightLabel = ` <span style="font-size: 0.8rem; color: var(--text-muted);">(${wStr})</span>`;
@@ -345,11 +369,11 @@ function processCheckout() {
 
     cart.forEach(item => {
         const isTeaCake = item.category === 'tea-cakes';
-        const isCake = item.category === 'cakes';
+        const isBrownie = item.category === 'brownies';
         let weightText = '';
         if (item.selectedWeight) {
             const w = item.selectedWeight;
-            const wStr = (isTeaCake && w < 1) ? `${Math.round(w * 1000)}g` : `${w} Kg`;
+            const wStr = ((isTeaCake || isBrownie) && w < 1) ? `${Math.round(w * 1000)}g` : `${w} Kg`;
             weightText = ` (${wStr})`;
         }
         const eggText = item.selectedEgg ? ` [${item.selectedEgg}]` : '';
