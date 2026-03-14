@@ -812,38 +812,53 @@ body.cart-open .preorder-banner {
 .review-card {
     background: var(--card-bg);
     border-radius: 20px;
-    padding: 2rem;
+    padding: 2.5rem 2rem 2rem;
     box-shadow: var(--shadow-soft);
     display: flex;
     flex-direction: column;
     gap: 1rem;
     align-items: center;
     text-align: center;
+    position: relative;
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
 }
 
-.review-image {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 0.5rem;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+.review-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-hover);
+}
+
+.review-card::before {
+    content: '\201C';
+    font-family: var(--font-heading);
+    font-size: 5rem;
+    line-height: 1;
+    color: var(--primary-color);
+    opacity: 0.15;
+    position: absolute;
+    top: 0.5rem;
+    left: 1.25rem;
+    pointer-events: none;
+}
+
+.review-stars {
+    color: #ffd700;
+    font-size: 1.4rem;
+    letter-spacing: 2px;
 }
 
 .review-text {
     font-style: italic;
     color: var(--text-muted);
+    line-height: 1.7;
+    flex-grow: 1;
 }
 
 .review-author {
     font-weight: 700;
     font-family: var(--font-heading);
-    font-size: 1.2rem;
-}
-
-.review-stars {
-    color: #ffd700;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+    color: var(--primary-color);
 }
 
 .leave-review-container {

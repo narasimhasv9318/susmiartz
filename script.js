@@ -138,13 +138,13 @@ function renderReviews() {
             card.className = 'review-card';
             card.style.animationDelay = `${index * 0.1}s`;
 
+            const rating = review.rating || 5;
+            const starsHtml = '★'.repeat(rating) + '☆'.repeat(5 - rating);
+
             card.innerHTML = `
-                <img src="${review.image}" alt="Review by ${review.customerName}" class="review-image" loading="lazy">
-                <div class="review-stars">
-                    ${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}
-                </div>
+                <div class="review-stars">${starsHtml}</div>
                 <p class="review-text">${review.text}</p>
-                <div class="review-author">- ${review.customerName}</div>
+                <div class="review-author">— ${review.customerName}</div>
             `;
             reviewsGrid.appendChild(card);
         });

@@ -104,20 +104,6 @@ const DELIVERIES_DATA = [
     }
 ];
 
-// --- Customer Reviews Data ---
-const REVIEWS_DATA = [
-    {
-        id: 'review-1',
-        customerName: 'Priya S.',
-        rating: 5,
-        text: '"Absolutely the best chocolate cake I have ever had! The berries were so fresh and the cake was perfectly moist. Highly recommend SusmiArtz!"',
-        image: 'assets/customer_review_1_1772985830899.png'
-    },
-    {
-        id: 'review-2',
-        customerName: 'Ananya V.',
-        rating: 5,
-        text: '"Ordered a box of assorted donuts for my team and they disappeared in minutes! So light, fluffy, and the glazes are divine."',
-        image: 'assets/customer_review_2_1772985848057.png'
-    }
-];
+// --- Customer Reviews ---
+// Reviews are now managed in reviews.js + assets/reviews/ folder.
+// See reviews.js to add or edit reviews.
