@@ -107,3 +107,18 @@ const DELIVERIES_DATA = [
 // --- Customer Reviews ---
 // Reviews are now managed in reviews.js + assets/reviews/ folder.
 // See reviews.js to add or edit reviews.
+
+// --- Unavailable Dates ---
+// Add dates in 'YYYY-MM-DD' format to block out specific days from being selectable for orders.
+const UNAVAILABLE_DATES = [
+    '2026-03-19',
+    '2026-03-20',
+    '2026-03-21',
+    '2026-03-22',
+    '2026-03-23',
+    '2026-03-24',
+    '2026-03-25',
+    '2026-03-26',
+    '2026-03-27',
+    '2026-03-28'
+];

@@ -26,6 +26,14 @@ function init() {
     updateCartUI();
 }
 
+// --- Validation Helpers ---
+function isDateUnavailable(dateString) {
+    if (typeof UNAVAILABLE_DATES !== 'undefined' && UNAVAILABLE_DATES.includes(dateString)) {
+        return true;
+    }
+    return false;
+}
+
 // --- Render Products ---
 function renderProducts(filter) {
     productGrid.innerHTML = '';
@@ -359,6 +367,12 @@ function processCheckout() {
         return;
     }
 
+    if (isDateUnavailable(dateInput.value)) {
+        alert("Thank you for choosing us! Unfortunately, we are fully booked or unavailable on the selected date. Please kindly choose another date for your order. 🙏");
+        dateInput.value = '';
+        return;
+    }
+
     const deliveryDateStr = new Date(dateInput.value).toLocaleDateString('en-IN', {
         weekday: 'short', year: 'numeric', month: 'short', day: 'numeric'
     });
@@ -412,6 +426,13 @@ window.handleCustomOrder = function (event) {
         if (dateInput) dateInput.focus();
         return;
     }
+
+    if (isDateUnavailable(dateInput.value)) {
+        alert("Thank you for choosing us! Unfortunately, we are fully booked or unavailable on the selected date. Please kindly choose another date for your order. 🙏");
+        dateInput.value = '';
+        return;
+    }
+
     const deliveryDateStr = new Date(dateInput.value).toLocaleDateString('en-IN', {
         weekday: 'short', year: 'numeric', month: 'short', day: 'numeric'
     });
@@ -467,11 +488,56 @@ function setupEventListeners() {
     const dateInput = document.getElementById('deliveryDate');
     if (dateInput) {
         dateInput.min = minDate;
+        dateInput.addEventListener('change', (e) => {
+            if (isDateUnavailable(e.target.value)) {
+                alert("Thank you for choosing us! Unfortunately, we are fully booked or unavailable on the selected date. Please kindly choose another date for your order. 🙏");
+                e.target.value = '';
+            }
+        });
     }
 
     const customDateInput = document.getElementById('customDeliveryDate');
     if (customDateInput) {
         customDateInput.min = minDate;
+        customDateInput.addEventListener('change', (e) => {
+            if (isDateUnavailable(e.target.value)) {
+                alert("Thank you for choosing us! Unfortunately, we are fully booked or unavailable on the selected date. Please kindly choose another date for your order. 🙏");
+                e.target.value = '';
+            }
+        });
+    }
+
+    displayUnavailableDatesNotice();
+}
+
+function displayUnavailableDatesNotice() {
+    if (typeof UNAVAILABLE_DATES === 'undefined' || UNAVAILABLE_DATES.length === 0) return;
+
+    // Get the first and last date for a simple range display (assuming they are sorted/continuous)
+    // For a more robust display, we'll just format them nicely or show the range if it's > 1 day.
+    const sortedDates = [...UNAVAILABLE_DATES].sort();
+    let datesText = '';
+    
+    if (sortedDates.length === 1) {
+        datesText = new Date(sortedDates[0]).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+    } else {
+        const firstDate = new Date(sortedDates[0]).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+        const lastDate = new Date(sortedDates[sortedDates.length - 1]).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+        datesText = `${firstDate} to ${lastDate}`;
+    }
+
+    const warningHtml = `<div style="font-size: 0.85rem; color: #d9534f; margin-top: 0.5rem; font-weight: 500; font-style: italic;">✨ Please note: We are fully booked from ${datesText}. Kindly select a different date.</div>`;
+
+    // 1. Add to Custom Cake form
+    const customDateContainer = document.getElementById('customDeliveryDate')?.parentElement;
+    if (customDateContainer) {
+        customDateContainer.insertAdjacentHTML('beforeend', warningHtml);
+    }
+
+    // 2. Add to Cart Sidebar
+    const cartDateContainer = document.getElementById('deliveryDate')?.parentElement;
+    if (cartDateContainer) {
+        cartDateContainer.insertAdjacentHTML('beforeend', warningHtml);
     }
 }
 
