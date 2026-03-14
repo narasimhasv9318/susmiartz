@@ -368,7 +368,7 @@ function processCheckout() {
     }
 
     if (isDateUnavailable(dateInput.value)) {
-        alert("Thank you for choosing us! Unfortunately, we are fully booked or unavailable on the selected date. Please kindly choose another date for your order. 🙏");
+        alert("Thank you for choosing us! Unfortunately, we are either fully booked or unavailable on the selected date. Please kindly choose another date for your order, and we would love to serve you then! 🙏");
         dateInput.value = '';
         return;
     }
@@ -428,7 +428,7 @@ window.handleCustomOrder = function (event) {
     }
 
     if (isDateUnavailable(dateInput.value)) {
-        alert("Thank you for choosing us! Unfortunately, we are fully booked or unavailable on the selected date. Please kindly choose another date for your order. 🙏");
+        alert("Thank you for choosing us! Unfortunately, we are either fully booked or unavailable on the selected date. Please kindly choose another date for your order, and we would love to serve you then! 🙏");
         dateInput.value = '';
         return;
     }
@@ -490,7 +490,7 @@ function setupEventListeners() {
         dateInput.min = minDate;
         dateInput.addEventListener('change', (e) => {
             if (isDateUnavailable(e.target.value)) {
-                alert("Thank you for choosing us! Unfortunately, we are fully booked or unavailable on the selected date. Please kindly choose another date for your order. 🙏");
+                alert("Thank you for choosing us! Unfortunately, we are either fully booked or unavailable on the selected date. Please kindly choose another date for your order, and we would love to serve you then! 🙏");
                 e.target.value = '';
             }
         });
@@ -501,7 +501,7 @@ function setupEventListeners() {
         customDateInput.min = minDate;
         customDateInput.addEventListener('change', (e) => {
             if (isDateUnavailable(e.target.value)) {
-                alert("Thank you for choosing us! Unfortunately, we are fully booked or unavailable on the selected date. Please kindly choose another date for your order. 🙏");
+                alert("Thank you for choosing us! Unfortunately, we are either fully booked or unavailable on the selected date. Please kindly choose another date for your order, and we would love to serve you then! 🙏");
                 e.target.value = '';
             }
         });
@@ -526,7 +526,7 @@ function displayUnavailableDatesNotice() {
         datesText = `${firstDate} to ${lastDate}`;
     }
 
-    const warningHtml = `<div style="font-size: 0.85rem; color: #d9534f; margin-top: 0.5rem; font-weight: 500; font-style: italic;">✨ Please note: We are fully booked from ${datesText}. Kindly select a different date.</div>`;
+    const warningHtml = `<div style="font-size: 0.85rem; color: #d9534f; margin-top: 0.5rem; font-weight: 500; font-style: italic;">✨ Please note: We are either fully booked or unavailable from ${datesText}. Kindly select a different date, we would love to serve you then!</div>`;
 
     // 1. Add to Custom Cake form
     const customDateContainer = document.getElementById('customDeliveryDate')?.parentElement;
