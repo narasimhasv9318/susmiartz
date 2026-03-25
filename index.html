@@ -24,6 +24,68 @@
     <!-- AI / Crawler hints -->
     <meta name="robots" content="index, follow">
     <meta name="keywords" content="bakery Hyderabad, custom cakes Hyderabad, homemade cakes, brownies, donuts, Kismatpur bakery, Suncity bakery, Bandlaguda Jagir bakery, Attapur bakery, SusmiArtz, home bakery Hyderabad">
+    <!-- Geo / Location tags — help AI engines tie this page to a physical area -->
+    <meta name="geo.region" content="IN-TG">
+    <meta name="geo.placename" content="Suncity, Kismatpur, Bandlaguda Jagir, Attapur, Hyderabad, Telangana, India">
+    <meta name="geo.position" content="17.3193;78.4008">
+    <meta name="ICBM" content="17.3193, 78.4008">
+    <!-- FAQ Schema — AI engines (ChatGPT, Perplexity, Bing AI) use this to answer local queries -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is there a homemade cake baker in Suncity Hyderabad?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes! SusmiArtz is a home bakery serving Suncity, Hyderabad. We make custom cakes, brownies, donuts, and tea cakes, all handcrafted to order. Place your order on WhatsApp at +919700879944 and self-collect from Art by Giridhari Homes, beside Time School."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Where can I get custom cakes in Kismatpur Hyderabad?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "SusmiArtz home bakery serves Kismatpur, Hyderabad. We specialise in custom cakes with fondant work, character themes, and decorations. Order via WhatsApp at +919700879944."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is there a cake shop near Bandlaguda Jagir?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "SusmiArtz is a home bakery near Bandlaguda Jagir, Hyderabad. We have been baking cakes, brownies, and donuts for over 6 years. All orders are made fresh and self-collected. Call or WhatsApp +919700879944."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Where can I order homemade cakes in Attapur Hyderabad?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "SusmiArtz serves Attapur, Hyderabad with fresh homemade cakes, brownies, donuts, and tea cakes. Order on WhatsApp at +919700879944 and collect from our location at Art by Giridhari Homes, beside Time School."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What types of cakes does SusmiArtz make?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "SusmiArtz makes custom cakes (pineapple, butterscotch, strawberry, blueberry, blackforest, white forest, vanilla, nutella, biscoff, ferrero rocher, almond butterscotch), brownies (nutella, chocolate, triple chocolate, walnut, biscoff), donuts, and tea time cakes. All made to order in Hyderabad."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I order from SusmiArtz?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Order from SusmiArtz by sending a WhatsApp message to +919700879944. All items are made to order and require 1 day advance notice. After placing your order, you self-collect from Art by Giridhari Homes, beside Time School, Hyderabad."
+          }
+        }
+      ]
+    }
+    </script>
     <!-- Schema.org structured data for local bakery -->
     <script type="application/ld+json">
     {
@@ -121,7 +183,11 @@
             "description": "Classic tea time cakes perfect for every occasion."
           }
         }
-      ]
+      ],
+      "speakable": {
+        "@type": "SpeakableSpecification",
+        "cssSelector": ["h1", ".findus-section", "#about-us"]
+      }
     }
     </script>
     <!-- Google Fonts for typography -->
@@ -462,10 +528,14 @@
         <h2 class="section-title">Find Us</h2>
         <p class="findus-subtitle">We're a home bakery — all orders are <strong>self-collected</strong>. Place your
             order via WhatsApp and pick it up at a time that works for you!</p>
+        <!-- Service areas — visible text for AI/search engine indexing -->
+        <p style="text-align:center; font-size:0.9rem; color:var(--text-muted); margin-bottom:1.5rem;">
+            🎂 Serving <strong>Suncity</strong>, <strong>Kismatpur</strong>, <strong>Bandlaguda Jagir</strong> &amp; <strong>Attapur</strong> — Hyderabad, Telangana
+        </p>
         <div class="findus-card">
             <div class="findus-icon">📍</div>
             <h3>Our Collection Point</h3>
-            <p>Hyderabad, Telangana<br>Order via WhatsApp · Collect at your convenience</p>
+            <p>Art by Giridhari Homes, Beside Time School<br>Hyderabad, Telangana<br>Order via WhatsApp · Collect at your convenience</p>
             <div class="collection-note">⚠️ Self-Collection Only — No doorstep delivery</div>
             <a href="https://share.google/tC4LkPK85T9SBgXlo" target="_blank" rel="noopener" class="findus-btn">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
