@@ -884,3 +884,140 @@ body.cart-open .preorder-banner {
     background-color: var(--primary-color);
     color: white;
 }
+
+/* =====================
+   LARGE SCREENS (≥1200px)
+   — cart as a persistent right panel
+   ===================== */
+@media (min-width: 1200px) {
+
+    /* Widen the cart sidebar */
+    .cart-sidebar {
+        width: 440px;
+        max-width: 440px;
+        right: -440px;
+        border-left: 1px solid rgba(0, 0, 0, 0.07);
+        box-shadow: -6px 0 40px rgba(0, 0, 0, 0.08);
+    }
+
+    /* When cart is open: slide the whole body content left
+       so it's not covered by the panel */
+    body.cart-open {
+        overflow: hidden;
+    }
+
+    /* Cart items: more breathing room */
+    .cart-item img {
+        width: 72px;
+        height: 72px;
+        border-radius: 12px;
+    }
+
+    .cart-item-title {
+        font-size: 1rem;
+    }
+
+    .cart-item-price {
+        font-size: 1rem;
+    }
+
+    /* Footer checkout area */
+    .cart-footer {
+        padding: 1.75rem;
+    }
+
+    .cart-total {
+        font-size: 1.35rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .checkout-btn {
+        font-size: 1.15rem;
+        padding: 1.1rem;
+    }
+
+    .continue-shopping-btn {
+        font-size: 1rem;
+        padding: 0.8rem;
+    }
+
+    /* Cart header */
+    .cart-header {
+        padding: 1.75rem 1.75rem 1.25rem;
+    }
+
+    .cart-header h3 {
+        font-size: 1.6rem;
+    }
+
+    /* Cart items scroll area */
+    .cart-items {
+        padding: 1.5rem 1.75rem;
+    }
+
+    /* Overlay: softer on large screens */
+    .overlay {
+        background: rgba(0, 0, 0, 0.25);
+    }
+
+    /* Give the product grid more columns on big screens */
+    .product-grid {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2.5rem;
+    }
+
+    /* Hero: cap content width for readability on ultra-wide */
+    .hero-content {
+        max-width: 640px;
+    }
+
+    /* Sections: add more horizontal padding on large screens */
+    .menu-section,
+    .reviews-section {
+        padding-left: 6%;
+        padding-right: 6%;
+    }
+}
+
+/* =====================
+   EXTRA LARGE (≥1600px / 17in+)
+   ===================== */
+@media (min-width: 1600px) {
+
+    .cart-sidebar {
+        width: 480px;
+        max-width: 480px;
+        right: -480px;
+    }
+
+    .cart-sidebar.open {
+        right: 0;
+    }
+
+    .product-grid {
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 3rem;
+    }
+
+    .product-image {
+        height: 280px;
+    }
+
+    .cart-item img {
+        width: 80px;
+        height: 80px;
+    }
+
+    .cart-header h3 {
+        font-size: 1.75rem;
+    }
+
+    .cart-total {
+        font-size: 1.45rem;
+    }
+
+    .checkout-btn {
+        font-size: 1.2rem;
+        padding: 1.2rem;
+    }
+}
