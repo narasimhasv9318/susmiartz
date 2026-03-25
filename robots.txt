@@ -24,3 +24,4 @@ User-agent: DuckDuckBot
 Allow: /
 
 Sitemap: https://susmiartz.github.io/sitemap.xml
+LLMs: https://susmiartz.github.io/llms.txt
