@@ -1,0 +1,26 @@
+# SusmiArtz — Home Bakery, Hyderabad
+# robots.txt — Allow all search engines and AI crawlers
+
+User-agent: *
+Allow: /
+
+# AI-specific crawlers
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+Sitemap: https://susmiartz.github.io/sitemap.xml

@@ -112,7 +112,9 @@ function renderProducts(filter) {
 
         card.innerHTML = `
             <div class="product-image-wrap" ${colorStyle}>
-                <img src="${product.image}" alt="${product.name}" class="product-image" loading="lazy"
+                <img src="${product.image}"
+                    alt="${product.name} — ${product.description || product.category + ' from SusmiArtz home bakery Hyderabad'} | SusmiArtz Home Bakery Hyderabad"
+                    class="product-image" loading="lazy"
                     onerror="this.onerror=null; this.src='assets/gourmet_cake_1772978336876.png';">
                 ${product.color ? `<div class="product-color-badge" style="background:${product.color}"></div>` : ''}
             </div>
@@ -320,7 +322,8 @@ function updateCartUI() {
         const cartItemEl = document.createElement('div');
         cartItemEl.className = 'cart-item';
         cartItemEl.innerHTML = `
-            <img src="${item.image}" alt="${item.name}"
+            <img src="${item.image}"
+                alt="${item.name} — handmade ${item.category} from SusmiArtz, Hyderabad"
                 onerror="this.onerror=null; this.src='assets/gourmet_cake_1772978336876.png';">
             <div class="cart-item-details">
                 <div class="cart-item-title">${item.name}${weightLabel}</div>

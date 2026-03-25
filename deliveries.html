@@ -5,6 +5,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SusmiArtz - Happy Collections | Home Bakery Hyderabad</title>
+    <meta name="description" content="See real orders collected by happy SusmiArtz customers — handcrafted cakes, brownies and donuts made fresh in Hyderabad. All orders self-collected.">
+    <link rel="canonical" href="https://susmiartz.github.io/deliveries.html">
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="SusmiArtz">
+    <meta property="og:locale" content="en_IN">
+    <meta property="og:url" content="https://susmiartz.github.io/deliveries.html">
+    <meta property="og:title" content="Happy Collections — SusmiArtz Home Bakery Hyderabad">
+    <meta property="og:description" content="Real orders collected by our happy customers — custom cakes, brownies, donuts made with love for 6+ years in Hyderabad.">
+    <meta property="og:image" content="https://susmiartz.github.io/assets/gourmet_cake_1772978336876.png">
+    <!-- Twitter / X Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Happy Collections — SusmiArtz Home Bakery Hyderabad">
+    <meta name="twitter:description" content="Real orders collected by our happy customers — custom cakes, brownies, donuts made with love in Hyderabad.">
+    <meta name="twitter:image" content="https://susmiartz.github.io/assets/gourmet_cake_1772978336876.png">
+    <meta name="robots" content="index, follow">
     <!-- Google Fonts for typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -72,7 +88,9 @@
                 const statusHtml = delivery.status ? delivery.status : 'Collected';
 
                 card.innerHTML = `
-                    <img src="${delivery.image}" alt="Collection image" class="product-image" loading="lazy"
+                    <img src="${delivery.image}"
+                        alt="SusmiArtz freshly baked order collected${delivery.customerName ? ' by ' + delivery.customerName : ''} on ${delivery.date} — handmade cakes and treats, Hyderabad"
+                        class="product-image" loading="lazy"
                         onerror="this.onerror=null; this.src='assets/bakery_delivery_box.png';">
                     <div class="product-info">
                         <span class="product-category" style="color: #25D366; display: flex; align-items: center; gap: 4px;">
