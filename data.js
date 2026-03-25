@@ -4,18 +4,18 @@ const PRODUCT_DATA = [
     // Classic Favourites (Base Price / kg)
     { id: 'cake-classic-pineapple', name: 'Pineapple Cake', description: 'Fresh pineapple chunks with light vanilla sponge and whipped cream.', category: 'cakes', price: 900, image: 'assets/cake_pineapple.png', color: '#f5c842' },
     { id: 'cake-classic-butterscotch', name: 'Butterscotch Cake', description: 'Crunchy caramel praline layered with soft vanilla sponge and rich cream.', category: 'cakes', price: 900, image: 'assets/cake_butterscotch.png', color: '#e8a420' },
-    { id: 'cake-classic-strawberry', name: 'Strawberry Cake', description: 'Real strawberry crush layered with vanilla sponge and pink strawberry cream.', category: 'cakes', price: 900, image: 'assets/gourmet_cake_1772978336876.png', color: '#e83e6c' },
-    { id: 'cake-classic-blueberry', name: 'Blueberry Cake', description: 'A delightful blend of vanilla sponge and tangy blueberry compote layers.', category: 'cakes', price: 900, image: 'assets/gourmet_cake_1772978336876.png', color: '#6a4bdb' },
-    { id: 'cake-classic-vanilla', name: 'Vanilla Cake', description: 'Classic, moist, and fluffy vanilla sponge layered with signature buttercream.', category: 'cakes', price: 900, image: 'assets/gourmet_cake_1772978336876.png', color: '#f7f0d4' },
+    { id: 'cake-classic-strawberry', name: 'Strawberry Cake', description: 'Real strawberry crush layered with vanilla sponge and pink strawberry cream.', category: 'cakes', price: 900, image: 'assets/cake_strawberry.png', color: '#e83e6c' },
+    { id: 'cake-classic-blueberry', name: 'Blueberry Cake', description: 'A delightful blend of vanilla sponge and tangy blueberry compote layers.', category: 'cakes', price: 900, image: 'assets/cake_blueberry.png', color: '#6a4bdb' },
+    { id: 'cake-classic-vanilla', name: 'Vanilla Cake', description: 'Classic, moist, and fluffy vanilla sponge layered with signature buttercream.', category: 'cakes', price: 900, image: 'assets/cake_vanilla.png', color: '#f7f0d4' },
     { id: 'cake-classic-blackforest', name: 'Blackforest Cake', description: 'Dark chocolate sponge, cherry filling, whipped cream, and chocolate flakes.', category: 'cakes', price: 900, image: 'assets/gourmet_cake_1772978336876.png', color: '#2c1a1a' },
     { id: 'cake-classic-whiteforest', name: 'White Forest Cake', description: 'Delicate white chocolate sponge with cherry compote and white chocolate curls.', category: 'cakes', price: 900, image: 'assets/gourmet_cake_1772978336876.png', color: '#f5f5f5' },
 
     // Premium Indulgence (Base Price / kg)
     { id: 'cake-premium-richchocolate', name: 'Rich Chocolate Cake', description: 'Intense, dark, and decadent chocolate truffle cake for true chocolate lovers.', category: 'cakes', price: 1200, image: 'assets/gourmet_cake_1772978336876.png', color: '#3d1a00' },
-    { id: 'cake-premium-nutella', name: 'Nutella Cake', description: 'Premium chocolate sponge generously layered with pure Nutella frosting.', category: 'cakes', price: 1200, image: 'assets/gourmet_cake_1772978336876.png', color: '#7b4a1e' },
-    { id: 'cake-premium-biscoff', name: 'Biscoff Cake', description: 'Spiced caramel sponge layered with original Lotus Biscoff spread and crunch.', category: 'cakes', price: 1200, image: 'assets/gourmet_cake_1772978336876.png', color: '#c47a2a' },
-    { id: 'cake-premium-almondbutterscotch', name: 'Almond Butterscotch Cake', description: 'Roasted almonds paired with golden caramel butterscotch chunks and cream.', category: 'cakes', price: 1200, image: 'assets/cake_butterscotch.png', color: '#d4a017' },
-    { id: 'cake-premium-ferrerorocher', name: 'Ferrero Rocher Cake', description: 'Decadent chocolate hazelnut cake topped and filled with Ferrero Rocher crumbles.', category: 'cakes', price: 1200, image: 'assets/gourmet_cake_1772978336876.png', color: '#8b6914' },
+    { id: 'cake-premium-nutella', name: 'Nutella Cake', description: 'Premium chocolate sponge generously layered with pure Nutella frosting.', category: 'cakes', price: 1200, image: 'assets/cake_nutella.png', color: '#7b4a1e' },
+    { id: 'cake-premium-biscoff', name: 'Biscoff Cake', description: 'Spiced caramel sponge layered with original Lotus Biscoff spread and crunch.', category: 'cakes', price: 1200, image: 'assets/cake_biscoff.png', color: '#c47a2a' },
+    { id: 'cake-premium-almondbutterscotch', name: 'Almond Butterscotch Cake', description: 'Roasted almonds paired with golden caramel butterscotch chunks and cream.', category: 'cakes', price: 1200, image: 'assets/cake_almond_butterscotch.png', color: '#d4a017' },
+    { id: 'cake-premium-ferrerorocher', name: 'Ferrero Rocher Cake', description: 'Decadent chocolate hazelnut cake topped and filled with Ferrero Rocher crumbles.', category: 'cakes', price: 1200, image: 'assets/cake_ferrero_rocher.png', color: '#8b6914' },
 
     // Brownies
     { id: 'brownie-nutella', name: 'Nutella Brownie', description: 'Fudgy, gooey brownie baked with generous swirls of Nutella.', category: 'brownies', price: 800, image: 'assets/brownie_nutella_1773420250871.png' },
@@ -23,7 +23,7 @@ const PRODUCT_DATA = [
     { id: 'brownie-triple-chocolate', name: 'Triple Chocolate Brownie', description: 'Loaded with dark, milk, and white chocolate chunks in every bite.', category: 'brownies', price: 800, image: 'assets/brownie_triple_chocolate_1773420284977.png' },
     { id: 'brownie-walnut', name: 'Walnut Brownie', description: 'Rich chocolate fudge brownie studded with toasted, crunchy walnuts.', category: 'brownies', price: 800, image: 'assets/brownie_walnut_1773420299735.png' },
     { id: 'brownie-slab', name: 'Brownie Slab', description: 'A massive slab of our signature dense chocolate fudge brownie cut to order.', category: 'brownies', price: 800, image: 'assets/fudge_brownies_1772978354574.png' },
-    { id: 'brownie-biscoff', name: 'Biscoff Brownie', description: 'Fudgy dark chocolate brownie swirled with Lotus Biscoff spread and biscuit crumbs.', category: 'brownies', price: 800, image: 'assets/fudge_brownies_1772978354574.png' },
+    { id: 'brownie-biscoff', name: 'Biscoff Brownie', description: 'Fudgy dark chocolate brownie swirled with Lotus Biscoff spread and biscuit crumbs.', category: 'brownies', price: 800, image: 'assets/brownie_biscoff.png' },
 
     // Donuts
     { id: 'donut-nutella', name: 'Nutella Donut', description: 'Soft, fluffy yeast donut glazed and filled with rich Nutella.', category: 'donuts', price: 80, image: 'assets/donut_nutella_1773420317329.png' },
