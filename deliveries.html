@@ -65,6 +65,12 @@
         </div>
     </main>
 
+    <!-- Lightbox Modal — must be before scripts so getElementById finds it -->
+    <div id="lightbox" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center; cursor: zoom-out;">
+        <span onclick="closeLightbox()" style="position: absolute; top: 20px; right: 30px; color: white; font-size: 40px; font-weight: bold; cursor: pointer; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">&times;</span>
+        <img id="lightbox-img" style="max-width: 90%; max-height: 90vh; object-fit: contain; border-radius: 8px; transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+    </div>
+
     <script src="data.js"></script>
     <script>
         const deliveriesGrid = document.getElementById('deliveriesGrid');
@@ -78,7 +84,7 @@
             lightboxImg.style.transform = 'scale(1)';
             lightboxImg.style.cursor = 'zoom-in';
             isZoomed = false;
-            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            document.body.style.overflow = 'hidden';
         }
 
         function closeLightbox() {
@@ -86,14 +92,10 @@
             document.body.style.overflow = 'auto';
         }
 
-        // Close when clicking outside image
         lightbox.onclick = (e) => {
-            if (e.target !== lightboxImg) {
-                closeLightbox();
-            }
+            if (e.target !== lightboxImg) closeLightbox();
         };
 
-        // Zoom image on click
         lightboxImg.onclick = (e) => {
             e.stopPropagation();
             isZoomed = !isZoomed;
@@ -101,67 +103,48 @@
             lightboxImg.style.cursor = isZoomed ? 'zoom-out' : 'zoom-in';
         };
 
-        async function loadDynamicDeliveries() {
-            try {
-                // Fetch contents of the deliveries folder directly from GitHub to make it completely dynamic
-                const response = await fetch('https://api.github.com/repos/narasimhasv9318/susmiartz/contents/assets/deliveries');
-                
-                if (!response.ok) {
-                    throw new Error('Failed to load GitHub API folder');
-                }
+        function renderDeliveries() {
+            const deliveries = (typeof DELIVERIES_DATA !== 'undefined' && DELIVERIES_DATA.length > 0)
+                ? DELIVERIES_DATA : [];
 
-                const files = await response.json();
-                
-                // Filter specifically for image extensions
-                const imageFiles = files.filter(f => f.name.match(/\.(jpeg|jpg|png|webp)$/i));
-                
-                // Sort descending (newest timestamps first based on WhatsApp naming conventions)
-                imageFiles.sort((a, b) => b.name.localeCompare(a.name));
-
-                deliveriesGrid.innerHTML = '';
-
-                if (imageFiles.length === 0) {
-                    deliveriesGrid.innerHTML = '<p style="text-align: center; grid-column: 1 / -1; color: var(--text-muted);">No recent collections to show yet.</p>';
-                    return;
-                }
-
-                // Render dynamic cards exactly mapping 1:1 with the files living in the folder!
-                imageFiles.forEach((img, index) => {
-                    const card = document.createElement('div');
-                    card.className = 'product-card';
-                    card.style.animationDelay = `${index * 0.1}s`;
-
-                    card.innerHTML = `
-                        <img src="${img.download_url}"
-                            alt="SusmiArtz freshly baked order collected — handmade cakes and treats"
-                            class="product-image" loading="lazy"
-                            onclick="openLightbox(this.src)"
-                            style="cursor: zoom-in;">
-                        <div class="product-info">
-                            <span class="product-category" style="color: #25D366; display: flex; align-items: center; gap: 4px;">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                                Collected
-                            </span>
-                        </div>
-                    `;
-                    deliveriesGrid.appendChild(card);
-                });
-
-            } catch (error) {
-                console.error('Dynamic loader failed:', error);
-                // Fallback rendering
-                deliveriesGrid.innerHTML = '<p style="text-align: center; grid-column: 1 / -1; color: var(--text-muted);">Unable to load live delivery photos right now. Please try refreshing.</p>';
+            if (deliveries.length === 0) {
+                deliveriesGrid.innerHTML = '<p style="text-align: center; grid-column: 1 / -1; color: var(--text-muted); padding: 2rem;">No recent collections to show yet.</p>';
+                return;
             }
+
+            deliveriesGrid.innerHTML = '';
+            deliveries.forEach((delivery, index) => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.style.animationDelay = `${index * 0.1}s`;
+
+                const imgSrc = (delivery.image || 'assets/bakery_delivery_box.png').replace(/ /g, '%20');
+                const statusHtml = delivery.status || 'Collected';
+                const itemsHtml = delivery.items
+                    ? `<p style="font-size:0.9rem;margin-bottom:1rem;line-height:1.4;margin-top:0.5rem;"><strong>Items:</strong><br>${delivery.items}</p>`
+                    : '<div style="flex-grow:1;"></div>';
+
+                card.innerHTML = `
+                    <img src="${imgSrc}"
+                        alt="SusmiArtz delivery — handmade cakes and treats"
+                        class="product-image" loading="lazy"
+                        onclick="openLightbox(this.src)"
+                        style="cursor: zoom-in;"
+                        onerror="this.onerror=null; this.src='assets/bakery_delivery_box.png';">
+                    <div class="product-info">
+                        <span class="product-category" style="color: #25D366; display: flex; align-items: center; gap: 4px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                            ${statusHtml}
+                        </span>
+                        ${itemsHtml}
+                    </div>
+                `;
+                deliveriesGrid.appendChild(card);
+            });
         }
 
-        loadDynamicDeliveries();
+        renderDeliveries();
     </script>
-
-    <!-- Lightbox Modal -->
-    <div id="lightbox" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center; cursor: zoom-out;">
-        <span onclick="closeLightbox()" style="position: absolute; top: 20px; right: 30px; color: white; font-size: 40px; font-weight: bold; cursor: pointer; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">&times;</span>
-        <img id="lightbox-img" style="max-width: 90%; max-height: 90vh; object-fit: contain; border-radius: 8px; transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-    </div>
 
     <!-- Pre-order floating banner -->
     <div class="preorder-banner">
