@@ -52,54 +52,63 @@ const PICKUP_INFO = {
 // --- Recent Deliveries Data ---
 const DELIVERIES_DATA = [
     {
-        id: 'delivery-1',
-        customerName: 'Aarushi M.',
-        location: 'Banjara Hills, Hyderabad',
-        items: '1x Classic Chocolate Berry, 2x Vanilla Pound Tea Cake',
+        id: 'delivery-new-1',
         status: 'Collected',
-        date: 'Today, 2:30 PM',
-        image: 'assets/bakery_delivery_box.png'
+        image: 'assets/deliveries/WhatsApp%20Image%202026-03-26%20at%209.07.55%20PM%20(1).jpeg'
     },
     {
-        id: 'delivery-2',
-        customerName: 'Rahul K.',
-        location: 'Jubilee Hills, Hyderabad',
-        items: '1x Assorted Gourmet Donuts (Box of 6)',
+        id: 'delivery-new-2',
         status: 'Collected',
-        date: 'Today, 11:15 AM',
-        image: 'assets/bakery_delivery_box.png'
+        image: 'assets/deliveries/WhatsApp%20Image%202026-03-26%20at%209.07.55%20PM.jpeg'
     },
     {
-        id: 'delivery-3',
-        customerName: 'Sneha P.',
-        location: 'Kukatpally, Hyderabad',
-        items: '2x Decadent Fudge Brownies (Box of 4)',
+        id: 'delivery-new-3',
         status: 'Collected',
-        date: 'Yesterday, 5:45 PM',
-        image: 'assets/bakery_delivery_box.png'
+        image: 'assets/deliveries/WhatsApp%20Image%202026-03-26%20at%209.07.54%20PM%20(1).jpeg'
+    },
+    {
+        id: 'delivery-new-4',
+        status: 'Collected',
+        image: 'assets/deliveries/WhatsApp%20Image%202026-03-26%20at%209.07.54%20PM.jpeg'
+    },
+    {
+        id: 'delivery-new-5',
+        status: 'Collected',
+        image: 'assets/deliveries/WhatsApp%20Image%202026-03-26%20at%209.05.42%20PM.jpeg'
+    },
+    {
+        id: 'delivery-new-6',
+        status: 'Collected',
+        image: 'assets/deliveries/WhatsApp%20Image%202026-03-26%20at%209.05.41%20PM%20(1).jpeg'
+    },
+    {
+        id: 'delivery-new-7',
+        status: 'Collected',
+        image: 'assets/deliveries/WhatsApp%20Image%202026-03-26%20at%209.05.41%20PM.jpeg'
+    },
+    {
+        id: 'delivery-new-8',
+        status: 'Collected',
+        image: 'assets/deliveries/WhatsApp%20Image%202026-03-26%20at%209.05.40%20PM.jpeg'
     },
     {
         id: 'delivery-4',
         status: 'Collected',
-        date: 'Mar 12, 2026',
         image: 'assets/delivery_assorted_treats.jpeg'
     },
     {
         id: 'delivery-5',
         status: 'Collected',
-        date: 'Mar 11, 2026',
         image: 'assets/delivery_cake_slice.jpeg'
     },
     {
         id: 'delivery-6',
         status: 'Collected',
-        date: 'Mar 10, 2026',
         image: 'assets/delivery_packed_box.jpeg'
     },
     {
         id: 'delivery-7',
         status: 'Collected',
-        date: 'Mar 09, 2026',
         image: 'assets/delivery_fresh_bakes_1.jpeg'
     }
 ];

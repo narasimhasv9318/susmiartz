@@ -68,6 +68,38 @@
     <script src="data.js"></script>
     <script>
         const deliveriesGrid = document.getElementById('deliveriesGrid');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        let isZoomed = false;
+
+        function openLightbox(src) {
+            lightbox.style.display = 'flex';
+            lightboxImg.src = src;
+            lightboxImg.style.transform = 'scale(1)';
+            lightboxImg.style.cursor = 'zoom-in';
+            isZoomed = false;
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+
+        function closeLightbox() {
+            lightbox.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close when clicking outside image
+        lightbox.onclick = (e) => {
+            if (e.target !== lightboxImg) {
+                closeLightbox();
+            }
+        };
+
+        // Zoom image on click
+        lightboxImg.onclick = (e) => {
+            e.stopPropagation();
+            isZoomed = !isZoomed;
+            lightboxImg.style.transform = isZoomed ? 'scale(2)' : 'scale(1)';
+            lightboxImg.style.cursor = isZoomed ? 'zoom-out' : 'zoom-in';
+        };
 
         function renderDeliveries() {
             const deliveries = typeof DELIVERIES_DATA !== 'undefined' ? DELIVERIES_DATA : [];
@@ -83,26 +115,22 @@
                 card.className = 'product-card';
                 card.style.animationDelay = `${index * 0.1}s`;
 
-                const customerNameHtml = delivery.customerName ? `<h3 class="product-title" style="font-size: 1.1rem; margin-top: 0.5rem;">To: ${delivery.customerName}</h3>` : '';
-                const itemsHtml = delivery.items ? `<p style="font-size: 0.9rem; margin-bottom: 1rem; line-height: 1.4;"><strong>Items:</strong> <br>${delivery.items}</p>` : '<div style="flex-grow: 1;"></div>';
+                const itemsHtml = delivery.items ? `<p style="font-size: 0.9rem; margin-bottom: 1rem; line-height: 1.4; margin-top: 0.5rem;"><strong>Items:</strong> <br>${delivery.items}</p>` : '<div style="flex-grow: 1;"></div>';
                 const statusHtml = delivery.status ? delivery.status : 'Collected';
 
                 card.innerHTML = `
                     <img src="${delivery.image}"
-                        alt="SusmiArtz freshly baked order collected${delivery.customerName ? ' by ' + delivery.customerName : ''} on ${delivery.date} — handmade cakes and treats, Hyderabad"
+                        alt="SusmiArtz freshly baked order collected — handmade cakes and treats, Hyderabad"
                         class="product-image" loading="lazy"
+                        onclick="openLightbox(this.src)"
+                        style="cursor: zoom-in;"
                         onerror="this.onerror=null; this.src='assets/bakery_delivery_box.png';">
                     <div class="product-info">
                         <span class="product-category" style="color: #25D366; display: flex; align-items: center; gap: 4px;">
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
                             ${statusHtml}
                         </span>
-                        ${customerNameHtml}
                         ${itemsHtml}
-                        <div class="product-price" style="font-size: 0.85rem; color: var(--text-muted); margin-top: auto; display: flex; align-items: center; gap: 4px;">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                            ${delivery.date}
-                        </div>
                     </div>
                 `;
                 deliveriesGrid.appendChild(card);
@@ -111,6 +139,12 @@
 
         renderDeliveries();
     </script>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center; cursor: zoom-out;">
+        <span onclick="closeLightbox()" style="position: absolute; top: 20px; right: 30px; color: white; font-size: 40px; font-weight: bold; cursor: pointer; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">&times;</span>
+        <img id="lightbox-img" style="max-width: 90%; max-height: 90vh; object-fit: contain; border-radius: 8px; transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+    </div>
 
     <!-- Pre-order floating banner -->
     <div class="preorder-banner">
