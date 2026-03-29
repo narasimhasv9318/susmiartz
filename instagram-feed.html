@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SusmiArtz - Instagram Social Feed | Home Bakery Hyderabad</title>
+    <meta name="description" content="Follow SusmiArtz on Instagram for the latest cake designs, baking videos, and sweet treats. Handmade with love in Suncity, Hyderabad.">
+    <link rel="canonical" href="https://susmiartz.github.io/instagram-feed.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .feed-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .widget-placeholder {
+            width: 100%;
+            background: #fff;
+            border: 2px dashed #f8c8d1;
+            border-radius: 20px;
+            padding: 4rem 2rem;
+            text-align: center;
+            color: var(--text-muted);
+            margin-top: 2rem;
+        }
+
+        .insta-branding {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .insta-icon-large {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            box-shadow: 0 10px 20px rgba(204, 35, 102, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="index.html" style="text-decoration: none;">
+            <div class="logo">SusmiArtz</div>
+        </a>
+        <div style="display: flex; gap: 1.5rem; align-items: center; margin-left: auto; margin-right: 2rem;">
+            <a href="index.html" style="text-decoration: none; font-weight: 600; color: var(--text-main);">Menu</a>
+            <a href="index.html#custom-cakes" style="text-decoration: none; font-weight: 600; color: var(--text-main);">Custom Cakes</a>
+            <a href="deliveries.html" style="text-decoration: none; font-weight: 600; color: var(--text-main);">Deliveries</a>
+            <a href="instagram-feed.html" style="text-decoration: none; font-weight: 600; color: var(--primary-color);">Social Feed</a>
+            <a href="https://www.instagram.com/susmitha124/" target="_blank" rel="noopener" aria-label="Visit SusmiArtz on Instagram" style="color: var(--text-main); display: flex; align-items: center;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                </svg>
+            </a>
+        </div>
+        <button class="cart-toggle" id="cartToggle" aria-label="Open shopping cart">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="9" cy="21" r="1"></circle>
+                <circle cx="20" cy="21" r="1"></circle>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+            </svg>
+            <span class="cart-count" id="cartCount">0</span>
+        </button>
+    </nav>
+
+    <header class="hero" style="min-height: 40vh; align-items: center; justify-content: center; text-align: center; background: radial-gradient(circle at center, #fff0f3 0%, var(--background-color) 70%);">
+        <div class="hero-content" style="max-width: 800px; margin: 0 auto; margin-top: 40px;">
+            <div class="insta-branding" style="justify-content: center;">
+                <div class="insta-icon-large">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                </div>
+                <h1>Instagram Feed</h1>
+            </div>
+            <p>Stay updated with our latest sweet creations, reels, and behind-the-scenes magic! <br><strong>Follow us @susmitha124</strong></p>
+        </div>
+    </header>
+
+    <main class="feed-container">
+        <!-- 
+            STEP TO ADD YOUR LIVE FEED:
+            1. Go to a service like Elfsight.com or LightWidget.com
+            2. Connect your Instagram account and create a widget.
+            3. Copy the "Embed Code" they give you.
+            4. PASTE THE CODE BELOW, replacing the placeholder div.
+        -->
+        
+        <div class="widget-placeholder">
+            <h3 style="margin-bottom: 1rem;">Your Live Feed Will Appear Here</h3>
+            <p style="margin-bottom: 2rem;">To display your actual Instagram posts automatically, you can use a free widget service like <strong>Elfsight</strong> or <strong>LightWidget</strong>.</p>
+            <a href="https://www.instagram.com/susmitha124/" target="_blank" class="cta-button" style="text-decoration: none;">View Profile on Instagram</a>
+        </div>
+
+        <!-- EXAMPLE WIDGET CODE PLACEHOLDER (Paste actual code here) -->
+        <!-- <script src="https://static.elfsight.com/platform/platform.js" async></script>
+             <div class="elfsight-app-YOUR-ID-HERE" data-elfsight-app-lazy></div> -->
+    </main>
+
+    <footer style="padding: 4rem 2rem; background: var(--text-main); color: #fff; text-align: center;">
+        <p>&copy; 2026 SusmiArtz Home Bakery. All rights reserved.</p>
+        <div style="margin-top: 1rem; display: flex; justify-content: center; gap: 1.5rem;">
+            <a href="index.html" style="color: #ffd6a5; text-decoration: none;">Menu</a>
+            <a href="deliveries.html" style="color: #ffd6a5; text-decoration: none;">Deliveries</a>
+            <a href="https://www.instagram.com/susmitha124/" style="color: #ffd6a5; text-decoration: none;">Instagram</a>
+        </div>
+    </footer>
+
+    <!-- Pre-order floating banner -->
+    <div class="preorder-banner">
+        ⚠️ All items are Made-to-Order. Requires 1 day prior notice. No same day delivery.
+    </div>
+
+    <!-- Shopping Cart Sidebar (Same as index.html) -->
+    <aside class="cart-sidebar" id="cartSidebar">
+        <!-- (Logic handled by script.js) -->
+        <div class="cart-header">
+            <h3>Your Order</h3>
+            <button class="close-cart" id="closeCart">&times;</button>
+        </div>
+        <div class="cart-items" id="cartItems"></div>
+        <div class="cart-footer">
+            <div class="cart-total"><span>Total:</span><span id="cartTotalCost">₹0.00</span></div>
+            <button class="checkout-btn" id="checkoutBtn">Order via WhatsApp</button>
+        </div>
+    </aside>
+    <div class="overlay" id="overlay"></div>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
