@@ -510,39 +510,10 @@ function setupEventListeners() {
         });
     }
 
-    displayUnavailableDatesNotice();
+
 }
 
-function displayUnavailableDatesNotice() {
-    if (typeof UNAVAILABLE_DATES === 'undefined' || UNAVAILABLE_DATES.length === 0) return;
 
-    // Get the first and last date for a simple range display (assuming they are sorted/continuous)
-    // For a more robust display, we'll just format them nicely or show the range if it's > 1 day.
-    const sortedDates = [...UNAVAILABLE_DATES].sort();
-    let datesText = '';
-    
-    if (sortedDates.length === 1) {
-        datesText = new Date(sortedDates[0]).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
-    } else {
-        const firstDate = new Date(sortedDates[0]).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
-        const lastDate = new Date(sortedDates[sortedDates.length - 1]).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
-        datesText = `${firstDate} to ${lastDate}`;
-    }
-
-    const warningHtml = `<div style="font-size: 0.85rem; color: #d9534f; margin-top: 0.5rem; font-weight: 500; font-style: italic;">✨ Please note: We are either fully booked or unavailable from ${datesText}. Kindly select a different date, we would love to serve you then!</div>`;
-
-    // 1. Add to Custom Cake form
-    const customDateContainer = document.getElementById('customDeliveryDate')?.parentElement;
-    if (customDateContainer) {
-        customDateContainer.insertAdjacentHTML('beforeend', warningHtml);
-    }
-
-    // 2. Add to Cart Sidebar
-    const cartDateContainer = document.getElementById('deliveryDate')?.parentElement;
-    if (cartDateContainer) {
-        cartDateContainer.insertAdjacentHTML('beforeend', warningHtml);
-    }
-}
 
 // Boot up
 init();
